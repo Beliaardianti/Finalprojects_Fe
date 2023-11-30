@@ -40,9 +40,9 @@ const ProductInfoPage = () => {
           alt="frameSeven"
         />
       ),
-      label: "Reports",
-      href: "/reports",
-      active: window.location.pathname === "/reports",
+      label: "Transaksi",
+      href: "/transaksi",
+      active: window.location.pathname === "/transaksi",
     },
     {
       icon: (

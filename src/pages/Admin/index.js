@@ -10,17 +10,13 @@ import { CloseSVG } from "../../assets/images";
 const AdminPage = () => {
   const table1Data = React.useRef([
     {
-      suppliername: "Richard Martin",
-      product: "Kit Kat",
-      contactnumber: "7687764556",
+      suppliername: "@rmartin",
+      namalengkap: "Richart Martin",
       emailFourteen: "richard@gmail.com",
+      password: "richar1234",
       type: "Taking Return",
       ontheway: "13",
     },
-
-
-
-
   ]);
   const table1Columns = React.useMemo(() => {
     const table1ColumnHelper = createColumnHelper();
@@ -39,7 +35,7 @@ const AdminPage = () => {
             className="min-w-[197px] text-blue_gray-500_01 text-sm"
             size="txtInterMedium14Bluegray50001"
           >
-           Nama
+             Name
           </Text>
         ),
       }),
@@ -57,10 +53,12 @@ const AdminPage = () => {
             className="min-w-[173px] text-blue_gray-500_01 text-sm"
             size="txtInterMedium14Bluegray50001"
           >
-            Email
+           Email
           </Text>
         ),
       }),
+
+      
       table1ColumnHelper.accessor("contactnumber", {
         cell: (info) => (
           <Text
@@ -75,7 +73,7 @@ const AdminPage = () => {
             className="min-w-[188px] text-blue_gray-500_01 text-sm"
             size="txtInterMedium14Bluegray50001"
           >
-            Contact Number
+            No Handphone
           </Text>
         ),
       }),
@@ -93,12 +91,10 @@ const AdminPage = () => {
             className="min-w-[197px] text-blue_gray-500_01 text-sm"
             size="txtInterMedium14Bluegray50001"
           >
-            Alamat
+            Address
           </Text>
         ),
       }),
-
-
     ];
   }, []);
 
@@ -190,29 +186,16 @@ const AdminPage = () => {
                       Admin
                     </Text>
                     <Button
-                        className="cursor-pointer font-medium min-w-[116px] ml-auto text-center text-sm bg-pink-600 text-white-A700"
-                        shape="round"
-                        variant="fill"
-                        >
-                        Add Product
-                        </Button>
-                        <Button
-                        className="cursor-pointer flex items-center justify-center min-w-[102px] ml-3"
-                        leftIcon={
-                            <Img
-                            className="h-5 mr-2"
-                            src="images/img_filters_lines.svg"
-                            alt="Filters lines"
-                            />
-                        }
-                        shape="round"
-                        >
-                        <div className="!text-blue_gray-600 font-medium text-left text-sm">
-                            Filters
-                        </div>
-                        </Button>
-
-                   
+                      className="cursor-pointer font-medium min-w-[116px] ml-auto text-center text-sm bg-pink-600 text-white-A700"
+                      shape="round"
+                      variant="fill"
+                      onClick={() => {
+                        // Navigate to the addSupplier page
+                        window.location.href = "AddAdmin";
+                      }}
+                    >
+                      Add Admin
+                    </Button>
                   </div>
                 </div>
                 <div className="flex flex-col gap-[26px] items-center justify-start px-4 w-full">
@@ -224,30 +207,7 @@ const AdminPage = () => {
                       headerClass="border-b border-blue_gray-50"
                     />
                   </div>
-                  <div className="flex sm:flex-col flex-row sm:gap-5 items-start justify-start w-full">
-                    <Button
-                      className="border border-blue_gray-100_01 border-solid cursor-pointer font-medium min-w-[92px] text-center text-sm"
-                      shape="round"
-                      color="white_A700"
-                      variant="fill"
-                    >
-                      Previous
-                    </Button>
-                    <Text
-                      className="sm:ml-[0] ml-[396px] sm:mt-0 mt-[11px] text-blue_gray-700 text-sm"
-                      size="txtInterRegular14Bluegray700"
-                    >
-  
-                    </Text>
-                    <Button
-                      className="border border-blue_gray-100_01 border-solid cursor-pointer font-medium min-w-[66px] sm:ml-[0] ml-[428px] text-center text-sm"
-                      shape="round"
-                      color="white_A700"
-                      variant="fill"
-                    >
-                      Next
-                    </Button>
-                  </div>
+                  <div className="flex sm:flex-col flex-row sm:gap-5 items-start justify-start w-full"></div>
                 </div>
               </div>
             </div>

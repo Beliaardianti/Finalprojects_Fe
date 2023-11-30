@@ -3,13 +3,12 @@ import { Button, CheckBox, Img, Input, Text } from "components";
 import DashboardPage from "pages/Dashboard";
 import { useNavigate } from "react-router-dom";
 
-
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [error, setError] = useState("");
-  const navigate =useNavigate();
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     // Validasi username dan password (contoh sederhana)
@@ -29,9 +28,7 @@ const LoginPage = () => {
   };
 
   if (isLoggedIn) {
-    return (
-     <DashboardPage />
-    );
+    return <DashboardPage />;
   }
 
   return (
@@ -98,7 +95,7 @@ const LoginPage = () => {
                     <Input
                       name="input_One"
                       placeholder="••••••••"
-                      type = "password"
+                      type="password"
                       className="!placeholder:text-blue_gray-500_01 !text-blue_gray-500_01 p-0 text-base text-left w-full"
                       wrapClassName="border border-blue_gray-100 border-solid w-full"
                       shape="round"
@@ -111,15 +108,6 @@ const LoginPage = () => {
               </div>
             </div>
             <div className="flex flex-row items-center justify-between w-full">
-              <CheckBox
-                className="font-medium text-left text-sm"
-                inputClassName="border border-blue_gray-100 border-solid h-4 mr-[5px] w-4"
-                name="text_One"
-                id="text_One"
-                label="Remember for 30 days"
-                color="white_A700"
-                variant="fill" 
-              ></CheckBox>
               <div className="flex flex-col items-start justify-start">
                 <div className="flex flex-col items-center justify-center w-auto">
                   <a
@@ -127,7 +115,7 @@ const LoginPage = () => {
                     className="text-pink-700 text-sm w-auto"
                   >
                     <Text size="txtInterMedium14Blue700">Forgot password</Text>
-                  </a>  
+                  </a>
                 </div>
               </div>
             </div>
@@ -153,7 +141,7 @@ const LoginPage = () => {
               <Text size="txtInterRegular14">Don’t have an account?</Text>
             </a>
             <div className="flex flex-col items-start justify-start w-auto">
-              <div className="flex flex-col items-center justify-center w-auto">
+              <div  className="flex flex-col items-center justify-center w-auto">
                 <a href="javascript:" className="text-pink-700 text-sm w-auto">
                   <Text size="txtInterMedium14Blue700">Sign up</Text>
                 </a>

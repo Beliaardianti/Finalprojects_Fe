@@ -40,9 +40,9 @@ const Sidebar1 = (props) => {
           alt="frameSeven"
         />
       ),
-      label: "Reports",
-      href: "/reports",
-      active: window.location.pathname === "/reports",
+      label: "Transaksi",
+      href: "/transaksi",
+      active: window.location.pathname === "/transaksi",
     },
     {
       icon: (
@@ -80,7 +80,6 @@ const Sidebar1 = (props) => {
       href: "/admin",
       active: window.location.pathname === "/admin",
     },
-
   ];
 
   return (
@@ -90,7 +89,11 @@ const Sidebar1 = (props) => {
         className={props.className}
       >
         <div className="flex flex-row gap-3 items-center justify-start mb-[44px] ml-9 mr-[98px] mt-7 w-auto">
-          <Img className="h-12 w-12 rounded-full" src="images/logo_lady.jpg" alt="logo" />
+          <Img
+            className="h-12 w-12 rounded-full"
+            src="images/logo_lady.jpg"
+            alt="logo"
+          />
           <Text
             className="text-pink-600 text-center text-xl w-auto"
             size="txtInterSemiBold20"

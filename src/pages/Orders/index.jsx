@@ -134,9 +134,9 @@ const OrdersPage = () => {
           alt="frameSeven"
         />
       ),
-      label: "Reports",
-      href: "/reports",
-      active: window.location.pathname === "/reports",
+      label: "Transaksi",
+      href: "/transaksi",
+      active: window.location.pathname === "/transaksi",
     },
     {
       icon: (
@@ -238,24 +238,13 @@ const OrdersPage = () => {
                         className="cursor-pointer font-medium min-w-[116px] md:ml-[0] ml-[632px] text-center text-sm bg-pink-600 text-white-A700"
                         shape="round"
                         variant="fill"
+                        onClick={() => {
+                          // Navigate to the addSupplier page
+                          window.location.href = "AddProduct";
+                        }}
                       >
-                        Add Product
-                      </Button>
-                      <Button
-                        className="cursor-pointer flex items-center justify-center min-w-[102px] ml-3 md:ml-[0]"
-                        leftIcon={
-                          <Img
-                            className="h-5 mr-2"
-                            src="images/img_filters_lines.svg"
-                            alt="Filters lines"
-                          />
-                        }
-                        shape="round"
-                      >
-                        <div className="!text-blue_gray-600 font-medium text-left text-sm">
-                          Filters
-                        </div>
-                      </Button>
+                        Tambahkan Order
+                      </Button>               
 
                     </div>
                   </div>
@@ -273,28 +262,7 @@ const OrdersPage = () => {
                     <div className="h-[18px] mt-[77px] w-[99%]"></div>
                     <div className="h-[17px] mt-[77px] w-[96%]"></div>
                     <div className="flex sm:flex-col flex-row sm:gap-5 items-start justify-start mt-[77px] w-full">
-                      <Button
-                        className="!text-blue_gray-400 border border-blue_gray-100_01 border-solid cursor-pointer font-medium min-w-[92px] text-center text-sm"
-                        shape="round"
-                        color="white_A700"
-                        variant="fill"
-                      >
-                        Previous
-                      </Button>
-                      <Text
-                        className="sm:ml-[0] ml-[394px] sm:mt-0 mt-[11px] text-blue_gray-400 text-sm"
-                        size="txtInterRegular14Bluegray400"
-                      >
-                       
-                      </Text>
-                      <Button
-                        className="!text-blue_gray-400 border border-blue_gray-100_01 border-solid cursor-pointer font-medium min-w-[66px] sm:ml-[0] ml-[430px] text-center text-sm"
-                        shape="round"
-                        color="white_A700"
-                        variant="fill"
-                      >
-                        Next
-                      </Button>
+                      
                     </div>
                   </div>
                 </div>

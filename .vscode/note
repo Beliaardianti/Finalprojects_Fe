@@ -1,0 +1,155 @@
+import React from "react";
+
+import { Menu, MenuItem } from "react-pro-sidebar";
+
+import { Button, Img, Input, Line, List, Text } from "components";
+import Sidebar1 from "components/Sidebar1";
+
+import { CloseSVG } from "../../assets/images";
+
+const AddSupplier = () => {
+  const sideBarMenu = [
+    {
+      icon: <Img className="h-6 w-6" src="images/img_home.svg" alt="home" />,
+      label: "Dashobard",
+      active: window.location.pathname === "/Dashboard",
+    },
+    {
+      icon: (
+        <Img
+          className="h-6 mb-[3px] w-6"
+          src="images/img_cursor.svg"
+          alt="cursor"
+        />
+      ),
+      label: "Inventory",
+      href: "/inventory",
+      active: window.location.pathname === "/inventory",
+    },
+    {
+      icon: (
+        <Img
+          className="h-6 mb-[3px] w-6"
+          src="images/img_frame7.svg"
+          alt="frameSeven"
+        />
+      ),
+      label: "Reports",
+      href: "/reports",
+      active: window.location.pathname === "/reports",
+    },
+    {
+      icon: (
+        <Img
+          className="h-6 mb-[3px] w-6"
+          src="images/img_frame8.svg"
+          alt="frameEight"
+        />
+      ),
+      label: "Suppliers",
+      href: "/suppliers",
+      active: window.location.pathname === "/suppliers",
+    },
+    {
+      icon: <Img className="h-6 w-6" src="images/img_reply.svg" alt="reply" />,
+      label: "Orders",
+      href: "/orders",
+      active: window.location.pathname === "/orders",
+    },
+  ];
+  const [searchbarvalue, setSearchbarvalue] = React.useState("");
+
+  return (
+    <div className="bg-blue_gray-50 flex flex-col font-inter items-center justify-start mx-auto w-full">
+      {/* Your Sidebar Component */}
+      <Sidebar1 />
+
+      <div className="flex flex-1 flex-col gap-[22px] items-center justify-start md:px-5 w-full">
+        <div className="bg-white-A700 border border-gray-200 border-solid flex flex-col items-center justify-start py-7 w-full">
+          {/* Your Header Component */}
+          <header className="flex sm:flex-col flex-row md:gap-10 items-center justify-between sm:px-5 px-8 w-full">
+            {/* AddSupplier Page Header */}
+            <Text
+              className="mb-0.5 sm:mt-0 mt-3 text-gray-800 text-xl"
+              size="txtInterMedium20Gray800"
+            >
+              Data Supplier
+            </Text>
+          </header>
+        </div>
+
+        <div className="bg-white-A700 flex flex-col items-center justify-start py-3 rounded-lg w-[95%] md:w-full">
+          <div className="flex flex-col items-center justify-start mt-1 w-full">
+            <div className="flex flex-col items-center justify-start pb-[38px] w-[98%] md:w-full">
+              <form>
+                {/* Supplier Name */}
+                <div className="flex gap-3 items-center justify-start w-full">
+                  <Text
+                    className="text-blue_gray-800 text-base"
+                    size="txtInterRegular14"
+                  >
+                    Nama Lengkap:
+                  </Text>
+                  <Input type="text" name="supplierName" />
+                </div>
+
+                {/* Email */}
+                <div className="flex gap-3 items-center justify-start w-full">
+                  <Text
+                    className="text-blue_gray-800 text-base"
+                    size="txtInterRegular14"
+                  >
+                    Email:
+                  </Text>
+                  <Input type="email" name="email" />
+                </div>
+
+                {/* Contact Number */}
+                <div className="flex gap-3 items-center justify-start w-full">
+                  <Text
+                    className="text-blue_gray-800 text-base"
+                    size="txtInterRegular14"
+                  >
+                    Contact Number:
+                  </Text>
+                  <Input type="tel" name="contactNumber" />
+                </div>
+
+                {/* Alamat */}
+                <div className="flex gap-3 items-center justify-start w-full">
+                  <Text
+                    className="text-blue_gray-800 text-base"
+                    size="txtInterRegular14"
+                  >
+                    Alamat:
+                  </Text>
+                  <Input type="text" name="alamat" />
+                </div>
+
+                {/* Buttons */}
+                <div className="flex gap-4 items-center justify-start mt-4">
+                  <Button
+                    className="min-w-[92px] text-center text-sm bg-blue-500 text-white-A700"
+                    shape="round"
+                    type="submit"
+                  >
+                    Simpan
+                  </Button>
+                  <Button
+                    className="min-w-[92px] text-center text-sm bg-orange-500 text-white-A700"
+                    shape="round"
+                    type="button"
+                  >
+                    Batal
+                  </Button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AddSupplier;

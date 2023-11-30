@@ -19,10 +19,23 @@ const InventoryPage = () => {
     //   expirydate: "11/12/22",
     //   availability: "In- stock",
     // },
-
-
-
   ]);
+
+  const handleEdit = (id) => {
+    console.log(`Edit data with ID: ${id}`);
+    // Implement your edit logic here
+  };
+
+  const handleDelete = (id) => {
+    console.log(`Delete data with ID: ${id}`);
+    // Implement your delete logic here
+  };
+
+  const handleUpdate = (id) => {
+    console.log(`Update data with ID: ${id}`);
+    // Implement your update logic here
+  };
+
   const tableColumns = React.useMemo(() => {
     const tableColumnHelper = createColumnHelper();
     return [
@@ -44,7 +57,24 @@ const InventoryPage = () => {
           </Text>
         ),
       }),
-      
+      tableColumnHelper.accessor("expirydate", {
+        cell: (info) => (
+          <Text
+            className="pb-[23px] pt-[31px] text-blue_gray-700 text-sm"
+            size="txtInterMedium14"
+          >
+            {info?.getValue()}
+          </Text>
+        ),
+        header: (info) => (
+          <Text
+            className="min-w-[176px] text-blue_gray-500_01 text-sm"
+            size="txtInterMedium14Bluegray50001"
+          >
+            Category
+          </Text>
+        ),
+      }),
       tableColumnHelper.accessor("quantity", {
         cell: (info) => (
           <Text
@@ -82,7 +112,44 @@ const InventoryPage = () => {
           </Text>
         ),
       }),
-     
+
+      tableColumnHelper.accessor("expirydate", {
+        cell: (info) => (
+          <Text
+            className="pb-[23px] pt-[31px] text-blue_gray-700 text-sm"
+            size="txtInterMedium14"
+          >
+            {info?.getValue()}
+          </Text>
+        ),
+        header: (info) => (
+          <Text
+            className="min-w-[176px] text-blue_gray-500_01 text-sm"
+            size="txtInterMedium14Bluegray50001"
+          >
+            Edit Data
+          </Text>
+        ),
+      }),
+
+      tableColumnHelper.accessor("expirydate", {
+        cell: (info) => (
+          <Text
+            className="pb-[23px] pt-[31px] text-blue_gray-700 text-sm"
+            size="txtInterMedium14"
+          >
+            {info?.getValue()}
+          </Text>
+        ),
+        header: (info) => (
+          <Text
+            className="min-w-[176px] text-blue_gray-500_01 text-sm"
+            size="txtInterMedium14Bluegray50001"
+          >
+            Hapus Data
+          </Text>
+        ),
+      }),
     ];
   }, []);
 
@@ -117,9 +184,9 @@ const InventoryPage = () => {
           alt="frameSeven"
         />
       ),
-      label: "Reports",
-      href: "/reports",
-      active: window.location.pathname === "/reports",
+      label: "Transaksi",
+      href: "/transaksi",
+      active: window.location.pathname === "/transaksi",
     },
     {
       icon: (
@@ -139,7 +206,6 @@ const InventoryPage = () => {
       href: "/orders",
       active: window.location.pathname === "/orders",
     },
-  
   ];
   const [searchbarvalue, setSearchbarvalue] = React.useState("");
 
@@ -211,12 +277,7 @@ const InventoryPage = () => {
                     Overall Inventory
                   </Text>
                   <div className="flex md:flex-col flex-row md:gap-10 items-start justify-between pb-2 w-full">
-                    <div className="flex flex-col gap-3 items-start justify-start w-[108px]">
-                      
-                     
-                    
-                    
-                    </div>
+                    <div className="flex flex-col gap-3 items-start justify-start w-[108px]"></div>
                     <List
                       className="md:flex-1 sm:flex-col flex-row gap-[55px] grid sm:grid-cols-[repeat(0,_1fr_1px)_1fr] grid-cols-[repeat(1,_1fr_1px)_1fr] w-[48%] md:w-full"
                       orientation="horizontal"
@@ -229,35 +290,20 @@ const InventoryPage = () => {
                           Total Products
                         </Text>
                         <div className="flex flex-col gap-3 items-start justify-start w-auto">
-                          <div className="flex flex-row gap-[91px] items-start justify-start w-auto">
-                          
-                            
-                          </div>
-                          <div className="flex flex-row gap-[47px] items-start justify-start w-auto">
-                           
-                           
-                          </div>
+                          <div className="flex flex-row gap-[91px] items-start justify-start w-auto"></div>
+                          <div className="flex flex-row gap-[47px] items-start justify-start w-auto"></div>
                         </div>
                       </div>
                       <Line className="self-center h-[99px] bg-blue_gray-50 w-px" />
                       <div className="flex flex-col gap-3 items-start justify-start sm:ml-[0] w-[205px]">
-                      
                         <div className="flex flex-col gap-3 items-start justify-start w-auto">
-                          <div className="flex flex-row gap-[139px] items-start justify-between w-auto">
-                           
-                          </div>
-                          <div className="flex flex-row items-center justify-between w-full">
-                           
-                          </div>
+                          <div className="flex flex-row gap-[139px] items-start justify-between w-auto"></div>
+                          <div className="flex flex-row items-center justify-between w-full"></div>
                         </div>
                       </div>
                     </List>
                     <div className="flex flex-col gap-3 items-start justify-start w-[235px]">
-                      
-                      
-                      <div className="flex flex-row gap-[95px] items-start justify-start w-auto">
-                        
-                      </div>
+                      <div className="flex flex-row gap-[95px] items-start justify-start w-auto"></div>
                     </div>
                   </div>
                 </div>
@@ -276,11 +322,13 @@ const InventoryPage = () => {
                         className="cursor-pointer font-medium min-w-[116px] sm:ml-[0] ml-[618px] text-center text-sm bg-pink-600 text-white-A700"
                         shape="round"
                         variant="fill"
+                        onClick={() => {
+                          // Navigate to the addSupplier page
+                          window.location.href = "AddProduct";
+                        }}
                       >
                         Add Product
                       </Button>
-                      
-                     
                     </div>
                   </div>
                   <div className="flex flex-col items-center justify-start px-4 w-full">
@@ -295,30 +343,8 @@ const InventoryPage = () => {
                     <div className="h-[17px] w-[99%]"></div>
                     <div className="h-[17px] mt-[78px] w-[99%]"></div>
                     <div className="h-[17px] mt-[126px] w-[99%]"></div>
-                    <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start mt-[78px] w-[98%] md:w-full">
-                     
-                     
-                     
-                    </div>
-                    <div className="flex sm:flex-col flex-row sm:gap-5 items-start justify-start mt-[23px] w-full">
-                      <Button
-                        className="border border-blue_gray-100_01 border-solid cursor-pointer font-medium min-w-[92px] text-center text-sm"
-                        shape="round"
-                        color="white_A700"
-                        variant="fill"
-                      >
-                        Previous
-                      </Button>
-                     
-                      <Button
-                        className="border border-blue_gray-100_01 border-solid cursor-pointer font-medium min-w-[66px] sm:ml-[0] ml-[430px] text-center text-sm"
-                        shape="round"
-                        color="white_A700"
-                        variant="fill"
-                      >
-                        Next
-                      </Button>
-                    </div>
+                    <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start mt-[78px] w-[98%] md:w-full"></div>
+                    <div className="flex sm:flex-col flex-row sm:gap-5 items-start justify-start mt-[23px] w-full"></div>
                   </div>
                 </div>
               </div>

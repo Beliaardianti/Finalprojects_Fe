@@ -21,9 +21,11 @@ const CustomerPage = () => {
       ontheway: "13",
     },
 
-
-
-
+    //  Fungsi buton next
+    // const handleClick = () => {
+    //   // Beralih ke halaman selanjutnya
+    //   window.location.href = "../Orders";
+    // };
   ]);
   const table1Columns = React.useMemo(() => {
     const table1ColumnHelper = createColumnHelper();
@@ -42,7 +44,7 @@ const CustomerPage = () => {
             className="min-w-[197px] text-blue_gray-500_01 text-sm"
             size="txtInterMedium14Bluegray50001"
           >
-           Nama
+             Custumer Name
           </Text>
         ),
       }),
@@ -78,7 +80,7 @@ const CustomerPage = () => {
             className="min-w-[188px] text-blue_gray-500_01 text-sm"
             size="txtInterMedium14Bluegray50001"
           >
-            Contact Number
+            No Handphone
           </Text>
         ),
       }),
@@ -96,12 +98,10 @@ const CustomerPage = () => {
             className="min-w-[197px] text-blue_gray-500_01 text-sm"
             size="txtInterMedium14Bluegray50001"
           >
-            Alamat
+            Address 
           </Text>
         ),
       }),
-
-
     ];
   }, []);
 
@@ -136,9 +136,9 @@ const CustomerPage = () => {
           alt="frameSeven"
         />
       ),
-      label: "Reports",
-      href: "/reports",
-      active: window.location.pathname === "/reports",
+      label: "Transaksi",
+      href: "/transaksi",
+      active: window.location.pathname === "/transaksi",
     },
     {
       icon: (
@@ -196,25 +196,13 @@ const CustomerPage = () => {
                       className="cursor-pointer font-medium min-w-[116px] sm:ml-[0] ml-[614px] text-center text-sm bg-pink-600 text-white-A700"
                       shape="round"
                       variant="fill"
+                      onClick={() => {
+                        // Navigate to the addSupplier page
+                        window.location.href = "AddCustumer";
+                      }}
                     >
                       Add Customer
                     </Button>
-                    <Button
-                      className="cursor-pointer flex items-center justify-center min-w-[102px] ml-3 sm:ml-[0]"
-                      leftIcon={
-                        <Img
-                          className="h-5 mr-2"
-                          src="images/img_filters_lines.svg"
-                          alt="Filters lines"
-                        />
-                      }
-                      shape="round"
-                    >
-                      <div className="!text-blue_gray-600 font-medium text-left text-sm">
-                        Filters
-                      </div>
-                    </Button>
-                   
                   </div>
                 </div>
                 <div className="flex flex-col gap-[26px] items-center justify-start px-4 w-full">
@@ -225,30 +213,6 @@ const CustomerPage = () => {
                       rowClass={"border-b border-blue_gray-50"}
                       headerClass="border-b border-blue_gray-50"
                     />
-                  </div>
-                  <div className="flex sm:flex-col flex-row sm:gap-5 items-start justify-start w-full">
-                    <Button
-                      className="border border-blue_gray-100_01 border-solid cursor-pointer font-medium min-w-[92px] text-center text-sm"
-                      shape="round"
-                      color="white_A700"
-                      variant="fill"
-                    >
-                      Previous
-                    </Button>
-                    <Text
-                      className="sm:ml-[0] ml-[396px] sm:mt-0 mt-[11px] text-blue_gray-700 text-sm"
-                      size="txtInterRegular14Bluegray700"
-                    >
-  
-                    </Text>
-                    <Button
-                      className="border border-blue_gray-100_01 border-solid cursor-pointer font-medium min-w-[66px] sm:ml-[0] ml-[428px] text-center text-sm"
-                      shape="round"
-                      color="white_A700"
-                      variant="fill"
-                    >
-                      Next
-                    </Button>
                   </div>
                 </div>
               </div>

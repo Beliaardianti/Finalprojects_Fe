@@ -7,7 +7,7 @@ import Sidebar1 from "components/Sidebar1";
 
 import { CloseSVG } from "../../assets/images";
 
-const ReportsPage = () => {
+const TransaksiPage = () => {
   const sideBarMenu = [
     {
       icon: (
@@ -39,9 +39,9 @@ const ReportsPage = () => {
           alt="frameSeven"
         />
       ),
-      label: "Reports",
-      href: "/reports",
-      active: window.location.pathname === "/reports",
+      label: "Transaksi",
+      href: "/transaksi",
+      active: window.location.pathname === "/transaksi",
     },
     {
       icon: (
@@ -764,4 +764,4 @@ const ReportsPage = () => {
   );
 };
 
-export default ReportsPage;
+export default TransaksiPage;
