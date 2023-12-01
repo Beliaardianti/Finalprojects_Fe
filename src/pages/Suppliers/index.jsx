@@ -20,11 +20,45 @@ const SuppliersPage = () => {
       type: "Taking Return",
       ontheway: "13",
     },
-
-
-
-
   ]);
+  
+   // Fungsi untuk menambahkan data
+   const addSupplier = (newSupplier) => {
+    table1Data.current = [...table1Data.current, newSupplier];
+    // Lakukan proses penyimpanan data ke database 
+  };
+
+  // Fungsi untuk mengedit data
+  const editSupplier = (index, updatedSupplier) => {
+    const updatedData = [...table1Data.current];
+    updatedData[index] = updatedSupplier;
+    table1Data.current = updatedData;
+    // Lakukan proses penyimpanan data ke database 
+  };
+
+  // Fungsi untuk menghapus data
+  const deleteSupplier = (index) => {
+    const updatedData = [...table1Data.current];
+    updatedData.splice(index, 1);
+    table1Data.current = updatedData;
+    // Lakukan proses penyimpanan data ke database atau penyimpanan permanen lainnya di sini (jika diperlukan)
+  };
+
+  const handleAddSupplier = () => {
+    // Implementasi logika untuk menampilkan form tambah supplier
+    // Gunakan addSupplier untuk menambahkan data ke tabel
+  };
+
+  const handleEditSupplier = (index) => {
+    // Implementasi logika untuk menampilkan form edit supplier berdasarkan index tertentu
+    // Gunakan editSupplier untuk memperbarui data di tabel
+  };
+
+  const handleDeleteSupplier = (index) => {
+    // Implementasi logika untuk menghapus supplier berdasarkan index tertentu
+    // Gunakan deleteSupplier untuk menghapus data dari tabel
+  };
+
   const table1Columns = React.useMemo(() => {
     const table1ColumnHelper = createColumnHelper();
     return [
@@ -184,7 +218,7 @@ const SuppliersPage = () => {
             </div>
             <div className="bg-white-A700 flex flex-col items-center justify-end py-3 rounded-lg w-[95%] md:w-full">
               <div className="flex flex-col items-center justify-start mt-1 w-full">
-                <div className="flex flex-col items-center justify-start pb-[38px] w-[98%] md:w-full">
+                <div className="flex flex-col items-cesunter justify-start pb-[38px] w-[98%] md:w-full">
                   <div className="flex sm:flex-col flex-row sm:gap-5 items-end justify-start w-full">
                     <Text
                       className="mb-0.5 sm:mt-0 mt-3 text-gray-800 text-xl"
@@ -196,6 +230,7 @@ const SuppliersPage = () => {
                       className="cursor-pointer font-medium min-w-[116px] sm:ml-[0] ml-[614px] text-center text-sm bg-pink-600 text-white-A700"
                       shape="round"
                       variant="fill"
+                      onClick={handleAddSupplier}
                     >
                       Add Suppliers
                     </Button>

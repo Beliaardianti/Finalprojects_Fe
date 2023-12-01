@@ -1,12 +1,8 @@
 import React from "react";
-
 import { Menu, MenuItem } from "react-pro-sidebar";
-
 import { createColumnHelper } from "@tanstack/react-table";
-
 import { Button, Img, Input, Line, List, ReactTable, Text } from "components";
 import Sidebar1 from "components/Sidebar1";
-
 import { CloseSVG } from "../../assets/images";
 
 const InventoryPage = () => {
@@ -212,10 +208,7 @@ const InventoryPage = () => {
                   </Text>
                   <div className="flex md:flex-col flex-row md:gap-10 items-start justify-between pb-2 w-full">
                     <div className="flex flex-col gap-3 items-start justify-start w-[108px]">
-                      
-                     
-                    
-                    
+    
                     </div>
                     <List
                       className="md:flex-1 sm:flex-col flex-row gap-[55px] grid sm:grid-cols-[repeat(0,_1fr_1px)_1fr] grid-cols-[repeat(1,_1fr_1px)_1fr] w-[48%] md:w-full"
@@ -296,8 +289,6 @@ const InventoryPage = () => {
                     <div className="h-[17px] mt-[78px] w-[99%]"></div>
                     <div className="h-[17px] mt-[126px] w-[99%]"></div>
                     <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start mt-[78px] w-[98%] md:w-full">
-                     
-                     
                      
                     </div>
                     <div className="flex sm:flex-col flex-row sm:gap-5 items-start justify-start mt-[23px] w-full">

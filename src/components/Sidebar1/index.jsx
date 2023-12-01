@@ -80,6 +80,12 @@ const Sidebar1 = (props) => {
       href: "/admin",
       active: window.location.pathname === "/admin",
     },
+    {
+      icon: <Img className="h-6 w-6" src="images/img_logout.svg" alt="reply" />,
+      label: "Log Out",
+      href: "/login",
+      active: window.location.pathname === "/login",
+    },
 
   ];
 
@@ -125,26 +131,14 @@ const Sidebar1 = (props) => {
           </div>
           <div className="flex flex-col gap-3 items-center justify-end mt-80 w-full">
             <MenuItem
-              icon={
-                <Img
-                  className="h-6 mb-[3px] w-6"
-                  src="images/img_settings_blue_gray_600.svg"
-                  alt="settings_One"
-                />
-              }
+            
             >
-              <Text className="w-auto">Settings</Text>
+              <Text className="w-auto"></Text>
             </MenuItem>
             <MenuItem
-              icon={
-                <Img
-                  className="h-6 mb-[3px] w-6"
-                  src="images/img_logout.svg"
-                  alt="logout"
-                />
-              }
+    
             >
-              <Text className="w-auto">Log Out</Text>
+              <Text className="w-auto"></Text>
             </MenuItem>
           </div>
         </Menu>
