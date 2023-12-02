@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import { Button, CheckBox, Img, Input, Text } from "components";
 import DashboardPage from "pages/Dashboard";
@@ -56,33 +57,49 @@ const handleLogin = async(e) => {
   //   );
   // }
 
+=======
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+
+const LoginPage = () => {
+  const history = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    if (email === 'user@example.com' && password === 'password') {
+      history('/dashboard');
+    } else {
+      alert('Login failed. Please check your credentials.');
+    }
+  };
+  
+>>>>>>> 316f00de95e8c183e6cee54034992038b678023d
   return (
-    <>
-      <div className="min-h-screen flex items-center justify-center bg-pink-300">
-        <div className="flex flex-col items-center justify-start gap-5 md:ml-[20px]">
-          <Img
-            className="h-[360px] w-[360px] rounded-full"
-            src="images/logo_lady.jpg"
-            alt="group1122"
-          />
-        </div>
-        <div className="flex flex-col gap-8 items-center justify-start mr-[50px] w-[35%] md:w-full">
-          <div className="flex flex-col gap-6 items-center justify-start w-[360px]">
-            <div className="flex flex-col gap-3 items-start justify-start w-full">
-              <Text
-                className="text-3xl sm:text-[26px] md:text-[28px] text-blue_gray-900 text-center w-full"
-                size="txtInterSemiBold30"
-              >
-                Log in to your account
-              </Text>
-              <Text
-                className="text-base text-blue_gray-800 text-center w-full"
-                size="txtInterRegular16"
-              >
-                Welcome back! Please enter your details.
-              </Text>
-            </div>
+    
+    <div className="min-h-screen flex items-center justify-center bg-pink-300">
+      <div className="bg-white p-8 rounded shadow-md w-4/12">
+        <h2 className="text-2xl font-bold mb-4 text-center">Log in to your Account</h2>
+        <form onSubmit={handleLogin}>
+          <div className="mb-4">
+            <label className="block mb-2" htmlFor="email">
+              Email:
+            </label>
+            <input
+              className="w-full px-3 py-2 border rounded"
+              type="email"
+              id="email"
+              placeholder="Email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
+<<<<<<< HEAD
           <div className="flex flex-col gap-6 items-center justify-start w-[360px]">
             <div className="flex flex-col gap-5 items-start justify-start w-full">
               <div className="flex flex-col items-start justify-start w-full">
@@ -188,8 +205,35 @@ const handleLogin = async(e) => {
             </div>
           </div>
         </div>
+=======
+          <div className="mb-4">
+            <label className="block mb-2" htmlFor="password">
+              Password:
+            </label>
+            <input
+              className="w-full px-3 py-2 border rounded"
+              type="password"
+              id="password"
+              placeholder="Password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <p className="m-4 text-center">
+          Don't have an account?{' '}
+          <Link to="/SignUp" className="text-pink-500 cursor-pointer">
+            Register
+          </Link>
+        </p>
+          <button type="submit" className="w-full bg-pink-400 text-white py-2 rounded">
+            Sign In
+          </button>
+        </form>
+>>>>>>> 316f00de95e8c183e6cee54034992038b678023d
       </div>
-    </>
+    </div>
+
   );
 };
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import { useHistory, useNavigate } from "react-router-dom"; 
 import { Button, Img, Input, Text } from "components";
@@ -37,28 +38,31 @@ const SignUpPage = () => {
   }
 
 
+=======
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+
+const SignUpPage = ({ switchToLogin }) => {
+>>>>>>> 316f00de95e8c183e6cee54034992038b678023d
   return (
-    <>
-      <div className="min-h-screen flex items-center justify-center bg-pink-300">
-        <div className="flex flex-col items-center justify-start gap-5 md:ml-[20px]">
-          <Img
-            className="h-[360px] w-[360px] rounded-full"
-            src="images/logo_lady.jpg"
-            alt="group1122"
-          />
-        </div>
-        <div className="flex flex-col gap-8 items-center justify-start mr-[75px] w-[33%] md:w-full">
-          <div className="flex flex-col gap-6 items-center justify-start w-[360px]">
-            <div className="flex flex-col gap-3 items-start justify-start w-full">
-              <Text
-                className="text-3xl sm:text-[26px] md:text-[28px] text-center text-gray-900 w-full"
-                size="txtInterSemiBold30Gray900"
-              >
-                Create an account
-              </Text>
-              
-            </div>
+    <div className="min-h-screen flex items-center justify-center bg-pink-300">
+      <div className="bg-white p-8 rounded shadow-md w-9/12">
+        <h2 className="text-2xl font-bold mb-4 text-center">Create Account</h2>
+        <form>
+          <div className="mb-4">
+            <label className="block mb-2" htmlFor="email">
+              Email:
+            </label>
+            <input
+              className="w-full px-3 py-2 border rounded"
+              type="email"
+              id="email"
+              placeholder="Email"
+              required
+            />
           </div>
+<<<<<<< HEAD
           <div className="flex flex-col gap-[23px] items-center justify-start w-[360px]">
             <div className="flex flex-col gap-5 items-start justify-start w-full">
               <div className="flex flex-col items-start justify-start w-full">
@@ -171,10 +175,58 @@ const SignUpPage = () => {
                 </a>
               </div>
             </div>
+=======
+          <div className="mb-4">
+            <label className="block mb-2" htmlFor="username">
+              Username:
+            </label>
+            <input
+              className="w-full px-3 py-2 border rounded"
+              type="text"
+              id="username"
+              placeholder="Username"
+              required
+            />
           </div>
-        </div>
+          <div className="mb-4">
+            <label className="block mb-2" htmlFor="password">
+              Password:
+            </label>
+            <input
+              className="w-full px-3 py-2 border rounded"
+              type="password"
+              id="password"
+              placeholder="Password"
+              required
+            />
+>>>>>>> 316f00de95e8c183e6cee54034992038b678023d
+          </div>
+          <div className="mb-4">
+            <label className="block mb-2" htmlFor="phoneNumber">
+              Phone Number:
+            </label>
+            <input
+              className="w-full px-3 py-2 border rounded"
+              type="tel"
+              id="phoneNumber"
+              placeholder="Phone Number"
+              required
+            />
+          </div>
+          <p className="m-4 text-center">
+          Already have an account?{' '}
+          <Link to="/Login" className="text-pink-500 cursor-pointer">
+            Sign In
+          </Link>
+        </p>
+          <button className="w-full bg-pink-400 text-white py-2 rounded">
+            Sign Up
+          </button>
+        </form>
+        
       </div>
-    </>
+    </div>
+
   );
 };
 

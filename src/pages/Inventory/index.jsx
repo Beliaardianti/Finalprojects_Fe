@@ -1,13 +1,18 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 
+=======
+import React from "react";
+>>>>>>> 316f00de95e8c183e6cee54034992038b678023d
 import { Menu, MenuItem } from "react-pro-sidebar";
-
 import { createColumnHelper } from "@tanstack/react-table";
-
 import { Button, Img, Input, Line, List, ReactTable, Text } from "components";
 import Sidebar1 from "components/Sidebar1";
+<<<<<<< HEAD
 import { createSearchParams, Link, useNavigate } from "react-router-dom";
 
+=======
+>>>>>>> 316f00de95e8c183e6cee54034992038b678023d
 import { CloseSVG } from "../../assets/images";
 import { deleteInventory, fetchInventory, searchInventoryNameQuery } from "api/repository/InventoryRepository";
 
@@ -311,7 +316,13 @@ const InventoryPage = () => {
                     Overall Inventory
                   </Text>
                   <div className="flex md:flex-col flex-row md:gap-10 items-start justify-between pb-2 w-full">
+<<<<<<< HEAD
                     <div className="flex flex-col gap-3 items-start justify-start w-[108px]"></div>
+=======
+                    <div className="flex flex-col gap-3 items-start justify-start w-[108px]">
+    
+                    </div>
+>>>>>>> 316f00de95e8c183e6cee54034992038b678023d
                     <List
                       className="md:flex-1 sm:flex-col flex-row gap-[55px] grid sm:grid-cols-[repeat(0,_1fr_1px)_1fr] grid-cols-[repeat(1,_1fr_1px)_1fr] w-[48%] md:w-full"
                       orientation="horizontal"
@@ -477,8 +488,33 @@ const InventoryPage = () => {
                     <div className="h-[17px] w-[99%]"></div>
                     <div className="h-[17px] mt-[78px] w-[99%]"></div>
                     <div className="h-[17px] mt-[126px] w-[99%]"></div>
+<<<<<<< HEAD
                     <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start mt-[78px] w-[98%] md:w-full"></div>
                     <div className="flex sm:flex-col flex-row sm:gap-5 items-start justify-start mt-[23px] w-full"></div>
+=======
+                    <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start mt-[78px] w-[98%] md:w-full">
+                     
+                    </div>
+                    <div className="flex sm:flex-col flex-row sm:gap-5 items-start justify-start mt-[23px] w-full">
+                      <Button
+                        className="border border-blue_gray-100_01 border-solid cursor-pointer font-medium min-w-[92px] text-center text-sm"
+                        shape="round"
+                        color="white_A700"
+                        variant="fill"
+                      >
+                        Previous
+                      </Button>
+                     
+                      <Button
+                        className="border border-blue_gray-100_01 border-solid cursor-pointer font-medium min-w-[66px] sm:ml-[0] ml-[430px] text-center text-sm"
+                        shape="round"
+                        color="white_A700"
+                        variant="fill"
+                      >
+                        Next
+                      </Button>
+                    </div>
+>>>>>>> 316f00de95e8c183e6cee54034992038b678023d
                   </div>
                 </div>
               </div>
