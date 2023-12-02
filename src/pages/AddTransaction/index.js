@@ -8,11 +8,16 @@ import Sidebar1 from "components/Sidebar1";
 import { CloseSVG } from "../../assets/images";
 import { fetchCategories } from "api/repository/CategoryRepository";
 import { useNavigate } from "react-router-dom";
-import { addInventory } from "api/repository/InventoryRepository";
 
-const AddProduct = () => {
+import { fetchInventory } from "api/repository/InventoryRepository";
+import { fetchCustomers } from "api/repository/CustomerRepository";
+import { fetchSupplier } from "api/repository/SupplierRepository";
+import { addTransaction } from "api/repository/TransactionRepository";
 
-  const navigate = useNavigate()
+import { getLocalStorage } from "api/repository/AuthRepository";
+
+const AddTransaction = () => {
+  const navigate = useNavigate();
   const sideBarMenu = [
     {
       icon: <Img className="h-6 w-6" src="images/img_home.svg" alt="home" />,
@@ -64,48 +69,85 @@ const AddProduct = () => {
   ];
   const [searchbarvalue, setSearchbarvalue] = React.useState("");
 
-  const [productName, setProductName] = useState("");
-  const [idCategory, setIdCategory] = useState("");
-  const [stock, setStock] = useState(0);
-  const [categoryData, setCategoryData] = useState([])
-  const [loaderCategory,setLoaderCategory] = useState(false)
+  const [idInventory, setInventoryId] = useState(0);
+  const [idSupplier, setIdSupplier] = useState(0);
+  const [idCustomer, setIdCustomer] = useState(0);
+  const [qty, setQty] = useState(0);
+
+  const [inventoryData, setInventoryData] = useState([]);
+  const [loaderInventory, setLoaderInventory] = useState(false);
+
+  const [supplierData, setSupplierData] = useState([]);
+  const [loaderSupplier, setLoaderSupplier] = useState(false);
+
+  const [customerData, setCustomerData] = useState([]);
+  const [loaderCustomer, setLoaderCustomer] = useState(false);
+
   const [loader, setLoader] = useState(false);
 
-  const handleFetchCategory = async() =>{
-    setLoaderCategory(true)
+  const handleFetchInventory = async () => {
+    setLoaderInventory(true);
     try {
-        const res = await fetchCategories()
-        // console.log(res)
-        setCategoryData(res)
-        setLoaderCategory(false)
+      const res = await fetchInventory();
+      // console.log(res)
+      setInventoryData(res);
+      setLoaderInventory(false);
     } catch (error) {
-        setLoaderCategory(false)
-        console.log(error)
+      setLoaderInventory(false);
+      console.log(error);
     }
-}
+  };
 
-const handleSubmit = async() =>{
-  setLoader(true)
-  try {
-    const res = await addInventory({
-      id_category: idCategory,
-      product_name: productName,
-      stock: stock,
-    })
-    alert("Tambah inventory sukses")
-    setLoader(false)
-    navigate(-1)
-  } catch (error) {
-    alert("Tambah inventory gagal")
-    setLoader(false)
-    console.log(error.message)
+  const handleFetchSupplier = async () => {
+    setLoaderSupplier(true);
+    try {
+      const res = await fetchSupplier();
+      // console.log(res)
+      setSupplierData(res);
+      setLoaderSupplier(false);
+    } catch (error) {
+      setLoaderSupplier(false);
+      console.log(error);
+    }
+  };
+
+  const handleFetchCustomer = async () => {
+    setLoaderCustomer(true);
+    try {
+      const res = await fetchCustomers();
+      // console.log(res)
+      setCustomerData(res);
+      setLoaderCustomer(false);
+    } catch (error) {
+      setLoaderCustomer(false);
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async() =>{
+    setLoader(true)
+    try {
+      await addTransaction({
+        id_inventory: idInventory,
+          id_supplier: idSupplier,
+          id_customer: idCustomer,
+          qty: qty,
+      })
+      alert("Tambah transaction sukses")
+      setLoader(false)
+      navigate(-1)
+    } catch (error) {
+      alert("Tambah transaction gagal")
+      setLoader(false)
+      console.log(error.message)
+    }
   }
-}
 
-useEffect(() => {
-  handleFetchCategory()
-  // handleFetchProduct()
-}, [])
+  useEffect(() => {
+    handleFetchInventory();
+    handleFetchSupplier();
+    handleFetchCustomer();
+  }, []);
 
   return (
     <>
@@ -149,7 +191,7 @@ useEffect(() => {
                 ></Input>
                 <div className="h-10 relative w-[10%] sm:w-full">
                   <div className="flex flex-row gap-[21px] h-full items-center justify-between m-auto w-auto">
-                    {/* <div className="flex flex-col items-start justify-start p-2 w-10">
+                    <div className="flex flex-col items-start justify-start p-2 w-10">
                       <Img
                         className="h-6 w-6"
                         src="images/img_notification.svg"
@@ -162,7 +204,7 @@ useEffect(() => {
                         src="images/img_andreyzvyagint.png"
                         alt="andreyzvyagint"
                       />
-                    </div> */}
+                    </div>
                   </div>
                   <div className="absolute flex flex-row gap-[22px] h-full inset-[0] items-center justify-between m-auto w-auto">
                     <div className="flex flex-col items-start justify-start p-2 w-10">
@@ -189,7 +231,7 @@ useEffect(() => {
               className="mb-0.5 sm:mt-0 mt-3 text-gray-800 text-xl"
               size="txtInterMedium20Gray800"
             >
-              Tambahkan Product
+              Tambah Transaksi
             </Text>
 
             <div className="flex flex-col gap-[22px] items-center justify-start w-[95%] md:w-full">
@@ -209,64 +251,116 @@ useEffect(() => {
                                 >
                                   Product Name:
                                 </Text>
-                                <Input type="text" name="product_name" onChange={(e)=>{
-                                  setProductName(e)
-                                }}/>
+                                {loaderInventory ? (
+                                  <span>Loading ...</span>
+                                ) : (
+                                  <select
+                                    name="id_inventory"
+                                    className="w-full px-3 py-2 border rounded"
+                                    onChange={(e) =>
+                                      setInventoryId(e.target.value)
+                                    }
+                                  >
+                                    <option>Pilih Produk</option>
+                                    {inventoryData.map((data, index) => {
+                                      return (
+                                        <option value={data.id}>
+                                          {data.product_name}
+                                        </option>
+                                      );
+                                    })}
+                                  </select>
+                                )}
                               </div>
 
-                              {/* Category */}
-                              <div className="flex gap-3 items-center justify-start w-full ">
-                                <Text
-                                  className="text-blue_gray-800 text-base"
-                                  size="txtInterRegular14"
-                                >
-                                  Category:
-                                </Text>
-
-                                {
-                loaderCategory ? <span>Loading ...</span> :
-                <select name='id_category' className="w-full px-3 py-2 border rounded" onChange={(e)=>setIdCategory(e.target.value)}>
-                   <option>Pilih kategori</option>
-                  {
-                    categoryData.map((data,index)=>{
-                      return(
-                        <option value={data.id}>{data.category_product}</option>
-                      )
-                    }) 
-                     
-                  }
-                  
-                </select>
-              }
-                              </div>
-
-                              {/* Stock */}
+                              {/* Supplier Name */}
                               <div className="flex gap-3 items-center justify-start w-full">
                                 <Text
                                   className="text-blue_gray-800 text-base"
                                   size="txtInterRegular14"
                                 >
-                                  Stock :
+                                  Supplier Name:
                                 </Text>
-                                <Input type="number" name="stock" onChange={(e)=>{
-                                  setStock(e)
-                                }}/>
+                                {loaderSupplier ? (
+                                  <span>Loading ...</span>
+                                ) : (
+                                  <select
+                                    name="id_supplier"
+                                    className="w-full px-3 py-2 border rounded"
+                                    onChange={(e) =>
+                                      setIdSupplier(e.target.value)
+                                    }
+                                  >
+                                    <option>Pilih Supplier</option>
+                                    {supplierData.map((data, index) => {
+                                      return (
+                                        <option value={data.id}>
+                                          {data.supplier_name}
+                                        </option>
+                                      );
+                                    })}
+                                  </select>
+                                )}
                               </div>
+
+                              {/* Customer Name */}
+                              <div className="flex gap-3 items-center justify-start w-full">
+                                <Text
+                                  className="text-blue_gray-800 text-base"
+                                  size="txtInterRegular14"
+                                >
+                                  Customer Name:
+                                </Text>
+                                {loaderCustomer ? (
+                                  <span>Loading ...</span>
+                                ) : (
+                                  <select
+                                    name="id_customer"
+                                    className="w-full px-3 py-2 border rounded"
+                                    onChange={(e) =>
+                                      setIdCustomer(e.target.value)
+                                    }
+                                  >
+                                    <option>Pilih Customer</option>
+                                    {customerData.map((data, index) => {
+                                      return (
+                                        <option value={data.id}>
+                                          {data.customer_name}
+                                        </option>
+                                      );
+                                    })}
+                                  </select>
+                                )}
+                              </div>
+
+                              {/* Customer Name */}
+                              <div className="flex gap-3 items-center justify-start w-full">
+                                <Text
+                                  className="text-blue_gray-800 text-base"
+                                  size="txtInterRegular14"
+                                >
+                                  Qty:
+                                </Text>
+                               <input type='number' name="qty" onChange={(e)=>setQty(e.target.value)}/>
+                              </div>
+
+
+                              
 
                               {/* Buttons */}
                               <div className="flex gap-4 items-center justify-start mt-4">
-                              {
-                                loader ? <span>Harap tunggu ...</span> :
-                                <Button
-                                  className="min-w-[92px] text-center text-sm bg-blue-500 text-white-A700"
-                                  shape="round"
-                                  type="button"
-                                  onClick={()=>handleSubmit()}
-                                >
-                                  Add Product
-                                </Button>
-                              }
-                                
+                                {loader ? (
+                                  <span>Harap tunggu ...</span>
+                                ) : (
+                                  <Button
+                                    className="min-w-[92px] text-center text-sm bg-blue-500 text-white-A700"
+                                    shape="round"
+                                    type="button"
+                                    onClick={() => handleSubmit()}
+                                  >
+                                    Add Transaction
+                                  </Button>
+                                )}
                               </div>
                             </form>
                           </div>
@@ -284,4 +378,4 @@ useEffect(() => {
   );
 };
 
-export default AddProduct;
+export default AddTransaction;

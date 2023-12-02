@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Menu, MenuItem } from "react-pro-sidebar";
 
 import { createColumnHelper } from "@tanstack/react-table";
-
+import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import { Button, Img, Input, Line, ReactTable, Text } from "components";
 import Header from "components/Header";
 import Sidebar1 from "components/Sidebar1";
 
 import { CloseSVG } from "../../assets/images";
+import { deleteSupplier, fetchSupplier, searchSupplierNameQuery } from "api/repository/SupplierRepository";
 
 const SuppliersPage = () => {
   const table1Data = React.useRef([
@@ -167,6 +168,73 @@ const SuppliersPage = () => {
   ];
   const [searchbarvalue, setSearchbarvalue] = React.useState("");
 
+  const [supplierData, setSupplierData] = useState([])
+  const [loaderSupplierData, setLoaderSupplierData] = useState(false)
+
+  const navigate = useNavigate();
+  const handleUpdateSupplier = async (id) => {
+    navigate('/update-supplier', { state: { id: id, } });
+  }
+  const [loader, setLoader] = useState(false);
+
+  
+
+  const handleFetchSupplier = async () => {
+    setLoaderSupplierData(true)
+    try {
+      const res = await fetchSupplier()
+      console.log(res)
+      setSupplierData(res)
+      setLoaderSupplierData(false)
+
+    } catch (error) {
+      setLoaderSupplierData(false)
+      console.log(error)
+    }
+  }
+  const handleSearchSupplier = async (query) => {
+    console.log(query)
+    if(query){
+
+      setLoader(true)
+      try {
+        const res = await searchSupplierNameQuery({
+          query:query,
+        })
+        console.log(res)
+        setSupplierData(res)
+        setLoader(false)
+      } catch (error) {
+        alert(error.message)
+        setLoader(false)
+        console.log(error.message)
+      }
+    }
+    else{
+      handleFetchSupplier()
+    }
+  }
+
+  const handleDeleteSupplier = async (id) => {
+    setLoaderSupplierData(true)
+    try {
+      const res = await deleteSupplier(id)
+      // console.log(res)
+      setLoaderSupplierData(false)
+      alert("Hapus supplier berhasil")
+      handleFetchSupplier()
+
+
+    } catch (error) {
+      setLoaderSupplierData(false)
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    handleFetchSupplier()
+  }, [])
+
   return (
     <>
       <div className="bg-blue_gray-50 flex flex-col font-inter items-center justify-start mx-auto w-full">
@@ -180,6 +248,7 @@ const SuppliersPage = () => {
               <div className="flex flex-col items-center justify-start mt-1 w-full">
                 <div className="flex flex-col items-center justify-start pb-[38px] w-[98%] md:w-full">
                   <div className="flex sm:flex-col flex-row sm:gap-5 items-end justify-start w-full">
+
                     <Text
                       className="mb-0.5 sm:mt-0 mt-3 text-gray-800 text-xl"
                       size="txtInterMedium20Gray800"
@@ -187,7 +256,7 @@ const SuppliersPage = () => {
                       Suppliers
                     </Text>
                     <Button
-                      className="cursor-pointer font-medium min-w-[116px] sm:ml-[0] ml-[614px] text-center text-sm bg-pink-600 text-white-A700"
+                      className="cursor-pointer font-medium min-w-[116px] sm:ml-[0] ml-[614px] text-center text-sm bg-pink-600 text-white-A700 mr-2"
                       shape="round"
                       variant="fill"
                       onClick={() => {
@@ -197,16 +266,111 @@ const SuppliersPage = () => {
                     >
                       Add Suppliers
                     </Button>
+                    <Input
+                      name="searchbar"
+                      placeholder="Search Supplier Name"
+                      onChange={(e) => handleSearchSupplier(e)}
+                      className="!placeholder:text-blue_gray-400 !text-blue_gray-400 font-inter p-0 text-base text-left w-full"
+                      wrapClassName="flex rounded sm:w-full"
+                      prefix={
+                        <Img
+                          className="cursor-pointer h-6 mr-2 my-auto"
+                          src="images/img_search.svg"
+                          alt="search"
+                        />
+                      }
+                      suffix={
+                        <CloseSVG
+                          fillColor="#858d9d"
+                          className="cursor-pointer h-6 my-auto"
+                          onClick={() => setSearchbarvalue("")}
+                          style={{
+                            visibility: searchbarvalue?.length <= 0 ? "hidden" : "visible",
+                          }}
+                          height={24}
+                          width={24}
+                          viewBox="0 0 24 24"
+                        />
+                      }
+                      color="blue_gray_50"
+                      size="sm"
+                      variant="outline"
+                    ></Input>
                   </div>
                 </div>
                 <div className="flex flex-col gap-[26px] items-center justify-start px-4 w-full">
                   <div className="overflow-auto w-[99%]">
-                    <ReactTable
+                    {/* <ReactTable
                       columns={table1Columns}
                       data={table1Data.current}
                       rowClass={"border-b border-blue_gray-50"}
                       headerClass="border-b border-blue_gray-50"
-                    />
+                    /> */}
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                          <th scope="col" class="px-6 py-3">
+                            Supplier Name
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                            Email
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                            No Handphone
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                            Address
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                            Aksi
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          loaderSupplierData ? <span>Loading ...</span> :
+                            supplierData?.map((data) => (
+                              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={data.id}>
+                                <td class="px-6 py-4">
+                                  {data.supplier_name}
+                                </td>
+                                <td class="px-6 py-4">
+                                  {data.email}
+                                </td>
+                                <td class="px-6 py-4">
+                                  {data.no_handphone}
+                                </td>
+                                <td class="px-6 py-4">
+                                  {data.address}
+                                </td>
+                                <td class="px-6 py-4">
+                                  <Button
+                                    className="cursor-pointer font-medium min-w-[116px] ml-auto text-center text-sm bg-pink-600 text-white-A700 mr-2"
+                                    shape="round"
+                                    variant="fill"
+                                    onClick={() => {
+                                      handleUpdateSupplier(data.id)
+                                    }}
+                                  >Update
+                                  </Button>
+                                  <Button
+                                    className="cursor-pointer font-medium min-w-[116px] ml-auto text-center text-sm bg-pink-600 text-white-A700"
+                                    shape="round"
+                                    variant="fill"
+                                    onClick={() => {
+                                      handleDeleteSupplier(data.id)
+                                    }}
+                                  >Hapus
+                                  </Button>
+                                </td>
+                              </tr>
+                            ))
+
+                        }
+
+
+                      </tbody>
+                    </table>
                   </div>
                   <div className="flex sm:flex-col flex-row sm:gap-5 items-start justify-start w-full"></div>
                 </div>

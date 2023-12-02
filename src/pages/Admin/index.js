@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 
 import { Button, Img, Input, Line, ReactTable, Text } from "components";
 import Header from "components/Header";
 import Sidebar1 from "components/Sidebar1";
-
+import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import { CloseSVG } from "../../assets/images";
+import { deleteAdmin, fetchAdmin,searchAdminNameQuery } from "api/repository/AuthRepository";
 
 const AdminPage = () => {
   const table1Data = React.useRef([
     {
       suppliername: "@rmartin",
       namalengkap: "Richart Martin",
-      emailFourteen: "richard@gmail.com",
+      email: "richard@gmail.com",
       password: "richar1234",
       type: "Taking Return",
       ontheway: "13",
@@ -35,11 +36,11 @@ const AdminPage = () => {
             className="min-w-[197px] text-blue_gray-500_01 text-sm"
             size="txtInterMedium14Bluegray50001"
           >
-             Name
+            Name
           </Text>
         ),
       }),
-      table1ColumnHelper.accessor("product", {
+      table1ColumnHelper.accessor("email", {
         cell: (info) => (
           <Text
             className="pt-[30px] text-blue_gray-700 text-sm"
@@ -53,12 +54,12 @@ const AdminPage = () => {
             className="min-w-[173px] text-blue_gray-500_01 text-sm"
             size="txtInterMedium14Bluegray50001"
           >
-           Email
+            Email
           </Text>
         ),
       }),
 
-      
+
       table1ColumnHelper.accessor("contactnumber", {
         cell: (info) => (
           <Text
@@ -166,6 +167,69 @@ const AdminPage = () => {
   ];
   const [searchbarvalue, setSearchbarvalue] = React.useState("");
 
+  const [adminData, setAdminData] = useState([])
+  const [loaderAdminData, setLoaderAdminData] = useState(false)
+
+  const handleFetchAdmin = async () => {
+    setLoaderAdminData(true)
+    try {
+      const res = await fetchAdmin()
+      // console.log(res)
+      setAdminData(res)
+      setLoaderAdminData(false)
+
+    } catch (error) {
+      setLoaderAdminData(false)
+      console.log(error)
+    }
+  }
+  const navigate = useNavigate();
+  const handleUpdateAdmin = async (id) => {
+    navigate('/update-admin', { state: { id: id, } });
+  }
+  const handleSearchAdmin = async (query) => {
+    console.log(query)
+    if(query){
+
+      setLoaderAdminData(true)
+      try {
+        const res = await searchAdminNameQuery({
+          query:query,
+        })
+        console.log(res)
+        setAdminData(res)
+        setLoaderAdminData(false)
+      } catch (error) {
+        alert(error.message)
+        setLoaderAdminData(false)
+        console.log(error.message)
+      }
+    }
+    else{
+      handleFetchAdmin()
+    }
+  }
+
+
+  const handleDeleteAdmin = async (id) => {
+    setLoaderAdminData(true)
+    try {
+      const res = await deleteAdmin(id)
+      setLoaderAdminData(false)
+      alert("Hapus admin berhasil")
+      handleFetchAdmin()
+
+
+    } catch (error) {
+      setLoaderAdminData(false)
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    handleFetchAdmin()
+  }, [])
+
   return (
     <>
       <div className="bg-blue_gray-50 flex flex-col font-inter items-center justify-start mx-auto w-full">
@@ -186,7 +250,7 @@ const AdminPage = () => {
                       Admin
                     </Text>
                     <Button
-                      className="cursor-pointer font-medium min-w-[116px] ml-auto text-center text-sm bg-pink-600 text-white-A700"
+                      className="cursor-pointer font-medium min-w-[116px] ml-auto text-center text-sm bg-pink-600 text-white-A700 mr-2"
                       shape="round"
                       variant="fill"
                       onClick={() => {
@@ -196,16 +260,105 @@ const AdminPage = () => {
                     >
                       Add Admin
                     </Button>
+                    <Input
+                      name="searchbar"
+                      placeholder="Search Name Admin"
+                      onChange={(e) => handleSearchAdmin(e)}
+                      className="!placeholder:text-blue_gray-400 !text-blue_gray-400 p-0 text-base text-left w-full"
+                      wrapClassName="flex sm:flex-1 rounded sm:w-full"
+                      prefix={
+                        <Img
+                          className="cursor-pointer h-6 mr-2 my-auto"
+                          src="images/img_search.svg"
+                          alt="search"
+                        />
+                      }
+                      suffix={
+                        <CloseSVG
+                          fillColor="#858d9d"
+                          className="cursor-pointer h-6 my-auto"
+                          onClick={() => setSearchbarvalue("")}
+                          style={{
+                            visibility:
+                              searchbarvalue?.length <= 0 ? "hidden" : "visible",
+                          }}
+                          height={24}
+                          width={24}
+                          viewBox="0 0 24 24"
+                        />
+                      }
+                      color="blue_gray_50"
+                      size="sm"
+                      variant="outline"
+                    ></Input>
                   </div>
                 </div>
                 <div className="flex flex-col gap-[26px] items-center justify-start px-4 w-full">
                   <div className="overflow-auto w-[99%]">
-                    <ReactTable
-                      columns={table1Columns}
-                      data={table1Data.current}
-                      rowClass={"border-b border-blue_gray-50"}
-                      headerClass="border-b border-blue_gray-50"
-                    />
+                    <div class="relative overflow-x-auto">
+                      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                          <tr>
+                            <th scope="col" class="px-6 py-3">
+                              ID
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                              Name
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                              Email
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                              Aksi
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {
+                            loaderAdminData ? <span>Loading ...</span> :
+                              adminData?.map((data) => (
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={data.id}>
+                                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {data.id}
+                                  </th>
+                                  <td class="px-6 py-4">
+                                    {data.name}
+                                  </td>
+                                  <td class="px-6 py-4">
+                                    {data.email}
+                                  </td>
+
+                                  <td class="px-6 py-4">
+                                    <Button
+                                      className="cursor-pointer font-medium min-w-[116px] ml-auto text-center text-sm bg-pink-600 text-white-A700 mr-3"
+                                      shape="round"
+                                      variant="fill"
+                                      onClick={() => {
+
+                                        handleUpdateAdmin(data.id)
+                                      }}
+                                    >Update
+                                    </Button>
+
+                                    <Button
+                                      className="cursor-pointer font-medium min-w-[116px] ml-auto text-center text-sm bg-pink-600 text-white-A700"
+                                      shape="round"
+                                      variant="fill"
+                                      onClick={() => {
+                                        handleDeleteAdmin(data.id)
+                                      }}
+                                    >Hapus
+                                    </Button>
+                                  </td>
+                                </tr>
+                              ))
+
+                          }
+
+
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   <div className="flex sm:flex-col flex-row sm:gap-5 items-start justify-start w-full"></div>
                 </div>

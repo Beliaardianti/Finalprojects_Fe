@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Menu, MenuItem } from "react-pro-sidebar";
 
@@ -6,8 +6,11 @@ import { Button, Img, Input, Line, List, Text } from "components";
 import Sidebar1 from "components/Sidebar1";
 
 import { CloseSVG } from "../../assets/images";
+import { addSupplier } from "api/repository/SupplierRepository";
+import { useNavigate } from "react-router-dom";
 
 const AddSupplier = () => {
+  const navigate = useNavigate()
   const sideBarMenu = [
     {
       icon: <Img className="h-6 w-6" src="images/img_home.svg" alt="home" />,
@@ -59,6 +62,33 @@ const AddSupplier = () => {
   ];
   const [searchbarvalue, setSearchbarvalue] = React.useState("");
 
+  const [supplierName, setSupplierName] = useState("");
+  const [email, setEmail] = useState("");
+  const [noHp, setNoHp] = useState("");
+  const [address, setAddress] = useState("");
+
+  const [loader, setLoader] = useState(false);
+
+  const handleSubmit = async() =>{
+    // e.preventDefault()
+    setLoader(true)
+    try {
+      const res = await addSupplier({
+        supplier_name:supplierName,
+        email:email,
+        no_handphone:noHp,
+        address:address
+      })
+      alert(res.message)
+      navigate(-1)
+      setLoader(false)
+    } catch (error) {
+      alert(error.message)
+      setLoader(false)
+      console.log(error.message)
+    }
+  }
+
   return (
     <>
       <div className="bg-white flex flex-col font-inter items-center justify-start mx-auto pb-[29px] w-full">
@@ -71,7 +101,7 @@ const AddSupplier = () => {
                   name="searchbar"
                   placeholder="Search product, supplier, order"
                   value={searchbarvalue}
-                  onChange={(e) => setSearchbarvalue(e)}
+                  // onChange={(e) => set(e)}
                   className="!placeholder:text-blue_gray-400 !text-blue_gray-400 p-0 text-base text-left w-full"
                   wrapClassName="flex sm:flex-1 rounded sm:w-full"
                   prefix={
@@ -161,7 +191,9 @@ const AddSupplier = () => {
                                 >
                                   Supplier Name :
                                 </Text>
-                                <Input type="text" name="supplierName" />
+                                <Input type="text" name="supplier_name" onChange={(e)=>{
+                        setSupplierName(e)
+                      }}/>
                               </div>
 
                               {/* Email */}
@@ -172,7 +204,9 @@ const AddSupplier = () => {
                                 >
                                   Email :
                                 </Text>
-                                <Input type="email" name="email" />
+                                <Input type="email" name="email" onChange={(e)=>{
+                        setEmail(e)
+                      }}/>
                               </div>
 
                               {/* Contact Number */}
@@ -183,7 +217,9 @@ const AddSupplier = () => {
                                 >
                                   No Handphone:
                                 </Text>
-                                <Input type="tel" name="contactNumber" />
+                                <Input type="tel" name="no_handphone" onChange={(e)=>{
+                        setNoHp(e)
+                      }}/>
                               </div>
 
                               {/* Alamat */}
@@ -194,20 +230,28 @@ const AddSupplier = () => {
                                 >
                                   Address:
                                 </Text>
-                                <Input type="text" name="alamat" />
+                                <Input type="text" name="address" onChange={(e)=>{
+                        setAddress(e)
+                      }}/>
                               </div>
 
                               {/* Bagian Button Add Supplier */}
 
                               {/* Buttons */}
                               <div className="flex gap-4 items-center justify-start mt-4">
-                                <Button
+                                {
+                                  loader ? <span>Harap Tunggu ...</span> : 
+                                  <Button
                                   className="min-w-[92px] text-center text-sm bg-blue-500 text-white-A700"
                                   shape="round"
                                   type="button"
+                                  onClick={()=>handleSubmit()}
                                 >
                                   Add Supplier
+                                  
                                 </Button>
+                                }
+                                
                               </div>
                             </form>
                           </div>

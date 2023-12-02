@@ -3,9 +3,12 @@ import React from "react";
 import { Menu, MenuItem, Sidebar, useProSidebar } from "react-pro-sidebar";
 
 import { Img, Text } from "components";
+import { useNavigate } from "react-router-dom";
+import { deleteAllLocalStorage } from "api/repository/AuthRepository";
 
 const Sidebar1 = (props) => {
   const { collapseSidebar, collapsed } = useProSidebar();
+  const navigate = useNavigate()
 
   const sideBarMenu = [
     {
@@ -32,6 +35,18 @@ const Sidebar1 = (props) => {
       href: "/inventory",
       active: window.location.pathname === "/inventory",
     },
+    // {
+    //   icon: (
+    //     <Img
+    //       className="h-6 mb-[3px] w-6"
+    //       src="images/img_settings.svg"
+    //       alt="settings"
+    //     />
+    //   ),
+    //   label: "Category",
+    //   href: "/category",
+    //   active: window.location.pathname === "/category",
+    // },
     {
       icon: (
         <Img
@@ -48,7 +63,7 @@ const Sidebar1 = (props) => {
       icon: (
         <Img
           className="h-6 mb-[3px] w-6"
-          src="images/img_frame8.svg"
+          src="images\warehouse_supply_cargo_distribution_logistic_icon_187269.png"
           alt="frameEight"
         />
       ),
@@ -60,7 +75,7 @@ const Sidebar1 = (props) => {
       icon: (
         <Img
           className="h-6 mb-[3px] w-6"
-          src="images/img_frame8.svg"
+          src="images\users_icon-icons.com_57999.svg"
           alt="frameEight"
         />
       ),
@@ -68,12 +83,12 @@ const Sidebar1 = (props) => {
       href: "/customer",
       active: window.location.pathname === "/customer",
     },
-    {
-      icon: <Img className="h-6 w-6" src="images/img_reply.svg" alt="reply" />,
-      label: "Orders",
-      href: "/orders",
-      active: window.location.pathname === "/orders",
-    },
+    // {
+    //   icon: <Img className="h-6 w-6" src="images/img_reply.svg" alt="reply" />,
+    //   label: "Orders",
+    //   href: "/orders",
+    //   active: window.location.pathname === "/orders",
+    // },
     {
       icon: <Img className="h-6 w-6" src="images/img_frame8.svg" alt="reply" />,
       label: "Admin",
@@ -81,6 +96,8 @@ const Sidebar1 = (props) => {
       active: window.location.pathname === "/admin",
     },
   ];
+
+ 
 
   return (
     <>
@@ -128,17 +145,21 @@ const Sidebar1 = (props) => {
           </div>
           <div className="flex flex-col gap-3 items-center justify-end mt-80 w-full">
             <MenuItem
-              icon={
-                <Img
-                  className="h-6 mb-[3px] w-6"
-                  src="images/img_settings_blue_gray_600.svg"
-                  alt="settings_One"
-                />
-              }
+              // icon={
+              //   <Img
+              //     className="h-6 mb-[3px] w-6"
+              //     src="images/img_settings_blue_gray_600.svg"
+              //     alt="settings_One"
+              //   />
+              // }
             >
-              <Text className="w-auto">Settings</Text>
+              {/* <Text className="w-auto">Settings</Text> */}
             </MenuItem>
             <MenuItem
+            onClick={()=>{
+              deleteAllLocalStorage()
+              navigate("/")
+            }}
               icon={
                 <Img
                   className="h-6 mb-[3px] w-6"

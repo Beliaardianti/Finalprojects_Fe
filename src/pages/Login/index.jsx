@@ -2,34 +2,59 @@ import React, { useState } from "react";
 import { Button, CheckBox, Img, Input, Text } from "components";
 import DashboardPage from "pages/Dashboard";
 import { useNavigate } from "react-router-dom";
+import { loginAdmin,saveLocalStorage } from "api/repository/AuthRepository";
+
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
+  const [loader, setLoader] = useState(false)
+
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    // Validasi username dan password (contoh sederhana)
-    if (username === "user" && password === "password") {
-      setIsLoggedIn(true);
-      setError("");
-      navigate("/dashboard"); // Navigasi ke Dashboard setelah login berhasil
-    } else {
-      setError("Invalid username or password");
+const handleLogin = async(e) => {
+  e.preventDefault();
+  setLoader(true)
+  try {
+    if (email != "" && password != "") {
+      const res = await loginAdmin({
+        "email":email,
+        "password":password
+      })
+      saveLocalStorage('adminData',{
+        "adminId":res.admin?.id,
+        "adminName": res.admin?.name
+      })
+      navigate("/dashboard")
+      setLoader(false)
+    }else{
+      alert("Email dan password wajib diisi")
+      setLoader(false)
     }
-  };
+    
+  } catch (error) {
+    setLoader(false)
+    alert("Username atau password salah")
+    console.log(error.message)
+  }
+};
+
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    setUsername("");
+    setEmail("");
     setPassword("");
   };
+  
 
-  if (isLoggedIn) {
-    return <DashboardPage />;
-  }
+  // if (isLoggedIn) {
+  //   return (
+  //    <DashboardPage />
+  //   );
+  // }
 
   return (
     <>
@@ -69,8 +94,12 @@ const LoginPage = () => {
                     >
                       Email
                     </Text>
+                    {/* <input
+                      className="!placeholder:text-blue_gray-800_01 !text-blue_gray-800_01 p-0 text-base text-left w-full round fill md"
+                      placeholder="Enter your email"
+                    /> */}
                     <Input
-                      name="input"
+                      name="email"
                       placeholder="Enter your email"
                       className="!placeholder:text-blue_gray-800_01 !text-blue_gray-800_01 p-0 text-base text-left w-full"
                       wrapClassName="border border-blue_gray-100 border-solid w-full"
@@ -79,6 +108,9 @@ const LoginPage = () => {
                       color="white_A700"
                       size="md"
                       variant="fill"
+                      onChange={(e)=>{
+                        setEmail(e)
+                      }}
                     ></Input>
                   </div>
                 </div>
@@ -93,35 +125,40 @@ const LoginPage = () => {
                       Password
                     </Text>
                     <Input
-                      name="input_One"
+                      name="password"
                       placeholder="••••••••"
-                      type="password"
+                      type = "password"
                       className="!placeholder:text-blue_gray-500_01 !text-blue_gray-500_01 p-0 text-base text-left w-full"
                       wrapClassName="border border-blue_gray-100 border-solid w-full"
                       shape="round"
                       color="white_A700"
                       size="md"
                       variant="fill"
+                      onChange={(e)=>{
+                        setPassword(e)
+                      }}
                     ></Input>
                   </div>
                 </div>
               </div>
             </div>
             <div className="flex flex-row items-center justify-between w-full">
+
               <div className="flex flex-col items-start justify-start">
                 <div className="flex flex-col items-center justify-center w-auto">
                   <a
                     href="javascript:"
                     className="text-pink-700 text-sm w-auto"
                   >
-                    <Text size="txtInterMedium14Blue700">Forgot password</Text>
-                  </a>
+                    
+                  </a>  
                 </div>
               </div>
             </div>
             <div className="flex flex-col items-center justify-start pb-[60px] w-full">
               <div className="flex flex-col items-start justify-start w-[360px]">
-                <Button
+                {
+                  loader ? <h5>Harap tunggu ...</h5> : <Button
                   className="border border-pink-700 border-solid cursor-pointer font-medium shadow-bs text-base text-center w-full"
                   shape="round"
                   color="pink-700"
@@ -130,6 +167,8 @@ const LoginPage = () => {
                 >
                   Sign in
                 </Button>
+                }
+                
               </div>
             </div>
           </div>
@@ -141,10 +180,10 @@ const LoginPage = () => {
               <Text size="txtInterRegular14">Don’t have an account?</Text>
             </a>
             <div className="flex flex-col items-start justify-start w-auto">
-              <div  className="flex flex-col items-center justify-center w-auto">
-                <a href="javascript:" className="text-pink-700 text-sm w-auto">
+              <div className="flex flex-col items-center justify-center w-auto">
+                <div href="../SignUp" className="text-pink-700 text-sm w-auto" onClick={()=>navigate("/signup")}>
                   <Text size="txtInterMedium14Blue700">Sign up</Text>
-                </a>
+                </div>
               </div>
             </div>
           </div>

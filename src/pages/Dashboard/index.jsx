@@ -1,13 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 import { Menu, MenuItem } from "react-pro-sidebar";
+import { useNavigate } from "react-router-dom";
 
 import { Button, Img, Input, Line, List, Text } from "components";
 import Sidebar1 from "components/Sidebar1";
 
 import { CloseSVG } from "../../assets/images";
+import { getLocalStorage } from "api/repository/AuthRepository";
 
 const DashboardPage = () => {
+  const navigate = useNavigate()
   const sideBarMenu = [
     {
       icon: <Img className="h-6 w-6" src="images/img_home.svg" alt="home" />,
@@ -59,6 +62,12 @@ const DashboardPage = () => {
   ];
   const [searchbarvalue, setSearchbarvalue] = React.useState("");
 
+  useEffect(() => {
+    if (getLocalStorage('adminData') == null) {
+     navigate('/')
+  }
+  }, [])
+
   return (
     <>
       <div className="bg-white flex flex-col font-inter items-center justify-start mx-auto pb-[29px] w-full">
@@ -67,72 +76,8 @@ const DashboardPage = () => {
           <div className="flex flex-1 flex-col gap-[22px] items-center justify-start md:px-5 w-full">
             <div className="bg-white-A700 border border-gray-200 border-solid flex flex-col items-center justify-start py-7 w-full">
               <div className="flex sm:flex-col flex-row md:gap-10 items-center justify-between max-w-[1160px] sm:px-5 px-8 w-full">
-                <Input
-                  name="searchbar"
-                  placeholder="Search product, supplier, order"
-                  value={searchbarvalue}
-                  onChange={(e) => setSearchbarvalue(e)}
-                  className="!placeholder:text-blue_gray-400 !text-blue_gray-400 p-0 text-base text-left w-full"
-                  wrapClassName="flex sm:flex-1 rounded sm:w-full"
-                  prefix={
-                    <Img
-                      className="cursor-pointer h-6 mr-2 my-auto"
-                      src="images/img_search.svg"
-                      alt="search"
-                    />
-                  }
-                  suffix={
-                    <CloseSVG
-                      fillColor="#858d9d"
-                      className="cursor-pointer h-6 my-auto"
-                      onClick={() => setSearchbarvalue("")}
-                      style={{
-                        visibility:
-                          searchbarvalue?.length <= 0 ? "hidden" : "visible",
-                      }}
-                      height={24}
-                      width={24}
-                      viewBox="0 0 24 24"
-                    />
-                  }
-                  color="blue_gray_50"
-                  size="sm"
-                  variant="outline"
-                ></Input>
-                <div className="h-10 relative w-[10%] sm:w-full">
-                  <div className="flex flex-row gap-[21px] h-full items-center justify-between m-auto w-auto">
-                    <div className="flex flex-col items-start justify-start p-2 w-10">
-                      <Img
-                        className="h-6 w-6"
-                        src="images/img_notification.svg"
-                        alt="notification"
-                      />
-                    </div>
-                    <div className="flex flex-col h-10 items-center justify-start w-10">
-                      <Img
-                        className="h-10 md:h-auto rounded-[50%] w-10"
-                        src="images/img_andreyzvyagint.png"
-                        alt="andreyzvyagint"
-                      />
-                    </div>
-                  </div>
-                  <div className="absolute flex flex-row gap-[22px] h-full inset-[0] items-center justify-between m-auto w-auto">
-                    <div className="flex flex-col items-start justify-start p-2 w-10">
-                      <Img
-                        className="h-6 w-6"
-                        src="images/img_notification.svg"
-                        alt="notification_One"
-                      />
-                    </div>
-                    <div className="flex flex-col h-10 items-center justify-start w-10">
-                      <Img
-                        className="h-10 md:h-auto rounded-[50%] w-10"
-                        src="images/img_andreyzvyagint.png"
-                        alt="andreyzvyagint_One"
-                      />
-                    </div>
-                  </div>
-                </div>
+              
+
               </div>
             </div>
             <div className="flex flex-col gap-[22px] items-center justify-start w-[95%] md:w-full">
@@ -305,6 +250,9 @@ const DashboardPage = () => {
                 </div>
                 <div className="bg-white-A700 flex md:flex-1 flex-col items-center justify-end p-1.5 rounded-[10px] w-[36%] md:w-full"></div>
               </div>
+
+
+
               <div className="flex md:flex-col flex-row gap-[21px] items-center justify-between w-full">
                 <div className="bg-white-A700 flex md:flex-1 flex-col items-center justify-end py-[23px] rounded-[10px] w-[63%] md:w-full">
                   <div className="flex flex-col gap-5 items-center justify-start w-full">
@@ -315,9 +263,7 @@ const DashboardPage = () => {
                       >
                         Top Selling Stock
                       </Text>
-                      <a href="javascript:" className="text-blue-900 text-sm">
-                        <Text size="txtInterRegular14Blue900">See All</Text>
-                      </a>
+                      
                     </div>
                     <div className="flex flex-col items-start justify-start w-full">
                       <Line className="bg-blue_gray-50 h-px w-full" />
@@ -340,22 +286,206 @@ const DashboardPage = () => {
                         >
                           Remaining Quantity
                         </Text>
-                        <Text
-                          className="sm:ml-[0] ml-[84px] text-blue_gray-600 text-sm"
-                          size="txtInterMedium14Bluegray600"
-                        >
-                          Price
-                        </Text>
+                       
                       </div>
                       <Line className="bg-blue_gray-50 h-px mt-[11px] w-full" />
-
+                      <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start ml-4 md:ml-[0] mt-[23px] w-[87%] md:w-full">
+                        <Text
+                          className="text-gray-700 text-sm"
+                          size="txtInterMedium14Gray700"
+                        >
+                         Avoskin
+                        </Text>
+                        <Text
+                          className="md:ml-[0] ml-[115px] text-gray-700 text-sm"
+                          size="txtInterMedium14Gray700"
+                        >
+                          30
+                        </Text>
+                        <Text
+                          className="md:ml-[0] ml-[160px] text-gray-700 text-sm"
+                          size="txtInterMedium14Gray700"
+                        >
+                          12
+                        </Text>
+                      
+                      </div>
                       <Line className="bg-blue_gray-50 h-px mt-[23px] w-full" />
-
+                      <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start ml-4 md:ml-[0] mt-[23px] w-[87%] md:w-full">
+                        <Text
+                          className="text-gray-700 text-sm"
+                          size="txtInterMedium14Gray700"
+                        >
+                          Skintific
+                        </Text>
+                        <Text
+                          className="md:ml-[0] ml-[120px] text-gray-700 text-sm"
+                          size="txtInterMedium14Gray700"
+                        >
+                          21
+                        </Text>
+                        <Text
+                          className="md:ml-[0] ml-[163px] text-gray-700 text-sm"
+                          size="txtInterMedium14Gray700"
+                        >
+                          15
+                        </Text>
+                       
+                      </div>
                       <Line className="bg-blue_gray-50 h-px mt-[23px] w-full" />
+                      <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start ml-4 md:ml-[0] mt-[23px] w-[87%] md:w-full">
+                        <Text
+                          className="text-gray-700 text-sm"
+                          size="txtInterMedium14Gray700"
+                        >
+                         Wardah
+                        </Text>
+                        <Text
+                          className="md:ml-[0] ml-[119px] text-gray-700 text-sm"
+                          size="txtInterMedium14Gray700"
+                        >
+                          19
+                        </Text>
+                        <Text
+                          className="md:ml-[0] ml-[162px] text-gray-700 text-sm"
+                          size="txtInterMedium14Gray700"
+                        >
+                          17
+                        </Text>
+                       
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div
+                  className="bg-cover bg-no-repeat flex md:flex-1 flex-col h-[309px] items-center justify-end p-1 w-[36%] md:w-full"
+                  style={{ backgroundImage: "url('images/img_group22.svg')" }}
+                >
+                  <div className="flex flex-col gap-3.5 items-center justify-start mt-[19px] w-[95%] md:w-full">
+                    <div className="flex flex-row items-start justify-between w-[99%] md:w-full">
+                      <Text
+                        className="text-blue_gray-800 text-xl"
+                        size="txtInterMedium20"
+                      >
+                        Low Quantity Stock
+                      </Text>
+                      <a
+                        href="javascript:"
+                        className="mt-[3px] text-blue-900 text-sm"
+                      >
+                        
+                      </a>
+                    </div>
+                    <List
+                      className="flex flex-col gap-4 items-center w-full"
+                      orientation="vertical"
+                    >
+                      <div className="flex flex-row gap-[26px] items-center justify-start w-auto">
+                        <Img
+                          className="h-[70px] md:h-auto object-cover rounded w-[60px]"
+                          src="images\wardah (1).jpeg"
+                          alt="rectangleSeventyOne"
+                        />
+                        <div className="flex flex-col gap-1 items-start justify-start w-auto">
+                          <Text
+                            className="text-base text-blue_gray-800 w-auto"
+                            size="txtInterSemiBold16Bluegray800"
+                          >
+                           Wardah
+                          </Text>
+                          <Text
+                            className="text-blue_gray-500_01 text-sm w-auto"
+                            size="txtInterRegular14"
+                          >
+                            Remaining Quantity : 10 Packet
+                          </Text>
+                        </div>
+                        <div className="flex flex-col items-start justify-start w-auto">
+                          <Button
+                            className="cursor-pointer font-medium min-w-[38px] rounded-[11px] text-center text-xs"
+                            color="red_50"
+                            size="xs"
+                            variant="fill"
+                          >
+                            Low
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="flex flex-row gap-[25px] items-center justify-start w-auto">
+                        <Img
+                          className="h-[70px] md:h-auto object-cover rounded w-[60px]"
+                          src="images\scinfic (1).jpeg"
+                          alt="rectangleSeventyTwo"
+                        />
+                        <div className="flex flex-col gap-1 items-start justify-start w-auto">
+                          <Text
+                            className="text-base text-blue_gray-800 w-auto"
+                            size="txtInterSemiBold16Bluegray800"
+                          >
+                            Skintific
+                          </Text>
+                          <Text
+                            className="text-blue_gray-500_01 text-sm w-auto"
+                            size="txtInterRegular14"
+                          >
+                            Remaining Quantity : 15 Packet
+                          </Text>
+                        </div>
+                        <div className="flex flex-col items-start justify-start w-auto">
+                          <Button
+                            className="cursor-pointer font-medium min-w-[38px] rounded-[11px] text-center text-xs"
+                            color="red_50"
+                            size="xs"
+                            variant="fill"
+                          >
+                            Low
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="flex flex-row gap-[25px] items-center justify-start w-auto">
+                        <Img
+                          className="h-[70px] md:h-auto object-cover rounded w-[60px]"
+                          src="images\avoskin (1).jpeg"
+                          alt="rectangleSeventyEight"
+                        />
+                        <div className="flex flex-col gap-1 items-start justify-start w-auto">
+                          <Text
+                            className="text-base text-blue_gray-800 w-auto"
+                            size="txtInterSemiBold16Bluegray800"
+                          >
+                           Avoskin
+                          </Text>
+                          <Text
+                            className="text-blue_gray-500_01 text-sm w-auto"
+                            size="txtInterRegular14"
+                          >
+                            Remaining Quantity : 15 Packet
+                          </Text>
+                        </div>
+                        <div className="flex flex-col items-start justify-start w-auto">
+                          <Button
+                            className="cursor-pointer font-medium min-w-[38px] rounded-[11px] text-center text-xs"
+                            color="red_50"
+                            size="xs"
+                            variant="fill"
+                          >
+                            Low
+                          </Button>
+                        </div>
+                      </div>
+                    </List>
+                  </div>
+                </div>
               </div>
+
+
+
+
+
+
+
+
+
             </div>
           </div>
         </div>

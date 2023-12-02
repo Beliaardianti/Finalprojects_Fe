@@ -18,6 +18,13 @@ const AddSupplier = React.lazy(() => import("pages/AddSupplier"));
 const AddProduct = React.lazy(() => import("pages/AddProduct"));
 const AddCustumer = React.lazy(() => import("pages/AddCustumer"));
 const AddAdmin = React.lazy(() => import("pages/AddAdmin"));
+const AddTransaction = React.lazy(() => import("pages/AddTransaction"))
+const UpdateAdmin = React.lazy(() => import("pages/UpdateAdmin"));
+const UpdateCustomer = React.lazy(() => import("pages/UpdateCustomer"));
+const UpdateSupplier = React.lazy(() => import("pages/UpdateSupplier"));
+const UpdateProduct = React.lazy(() => import("pages/UpdateProduct"));
+
+
 
 const ProjectRoutes = () => {
   return (
@@ -34,13 +41,20 @@ const ProjectRoutes = () => {
           <Route path="/transaksi" element={<Transaksi />} />
           <Route path="/suppliers" element={<Suppliers />} />
           <Route path="/customer" element={<Customer />} />
-          <Route path="/orders" element={<Orders />} />
           <Route path="/managestore" element={<Managestore />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/addsupplier" element={<AddSupplier />} />
           <Route path="/addproduct" element={<AddProduct />} />
           <Route path="/addcustumer" element={<AddCustumer />} />
           <Route path="/addadmin" element={<AddAdmin />} />
+          <Route path="/addtransaction" element={<AddTransaction />} />
+          <Route path="/update-admin" element={<UpdateAdmin />} />
+          <Route path="/update-customer" element={<UpdateCustomer />} />
+          <Route path="/update-supplier" element={<UpdateSupplier/>} />
+          <Route path="/update-product" element={<UpdateProduct/>} />
+
+          
+
           
         </Routes>
       </Router>

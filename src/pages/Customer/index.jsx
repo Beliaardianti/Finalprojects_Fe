@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import { Menu, MenuItem } from "react-pro-sidebar";
 
 import { createColumnHelper } from "@tanstack/react-table";
@@ -9,6 +9,7 @@ import Header from "components/Header";
 import Sidebar1 from "components/Sidebar1";
 
 import { CloseSVG } from "../../assets/images";
+import { deleteCustomer, fetchCustomers, searchCustomerNameQuery } from "api/repository/CustomerRepository";
 
 const CustomerPage = () => {
   const table1Data = React.useRef([
@@ -44,7 +45,7 @@ const CustomerPage = () => {
             className="min-w-[197px] text-blue_gray-500_01 text-sm"
             size="txtInterMedium14Bluegray50001"
           >
-             Custumer Name
+            Custumer Name
           </Text>
         ),
       }),
@@ -98,7 +99,7 @@ const CustomerPage = () => {
             className="min-w-[197px] text-blue_gray-500_01 text-sm"
             size="txtInterMedium14Bluegray50001"
           >
-            Address 
+            Address
           </Text>
         ),
       }),
@@ -173,6 +174,71 @@ const CustomerPage = () => {
   ];
   const [searchbarvalue, setSearchbarvalue] = React.useState("");
 
+  const [customerData, setCustomerData] = useState([])
+  const [loaderCustomerData, setLoaderCustomerData] = useState(false)
+
+  const handleFetchCustomer = async () => {
+    setLoaderCustomerData(true)
+    try {
+      const res = await fetchCustomers()
+      console.log(res)
+      setCustomerData(res)
+      setLoaderCustomerData(false)
+
+    } catch (error) {
+      setLoaderCustomerData(false)
+      console.log(error)
+    }
+  }
+
+  const handleSearchCustomer = async (query) => {
+    console.log(query)
+    if(query){
+
+      setLoaderCustomerData(true)
+      try {
+        const res = await searchCustomerNameQuery({
+          query:query,
+        })
+        console.log(res)
+        setCustomerData(res)
+        setLoaderCustomerData(false)
+      } catch (error) {
+        alert(error.message)
+        setLoaderCustomerData(false)
+        console.log(error.message)
+      }
+    }
+    else{
+      handleFetchCustomer()
+    }
+  }
+
+  const navigate = useNavigate();
+  const handleUpdateCustomer = async (id) => {
+    navigate('/update-customer', { state: { id: id, } });
+  }
+
+  const handleDeleteCustomer = async (id) => {
+    setLoaderCustomerData(true)
+    try {
+      const res = await deleteCustomer(id)
+      // console.log(res)
+      setLoaderCustomerData(false)
+      alert("Hapus customer berhasil")
+      handleFetchCustomer()
+
+
+    } catch (error) {
+      setLoaderCustomerData(false)
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    handleFetchCustomer()
+  }, [])
+
   return (
     <>
       <div className="bg-blue_gray-50 flex flex-col font-inter items-center justify-start mx-auto w-full">
@@ -193,7 +259,7 @@ const CustomerPage = () => {
                       Customer
                     </Text>
                     <Button
-                      className="cursor-pointer font-medium min-w-[116px] sm:ml-[0] ml-[614px] text-center text-sm bg-pink-600 text-white-A700"
+                      className="cursor-pointer font-medium min-w-[116px] sm:ml-[0] ml-[614px] text-center text-sm bg-pink-600 text-white-A700 mr-2"
                       shape="round"
                       variant="fill"
                       onClick={() => {
@@ -203,16 +269,111 @@ const CustomerPage = () => {
                     >
                       Add Customer
                     </Button>
+                    <Input
+                      name="searchbar"
+                      placeholder="Search Customer Name"
+                      // value={searchbarvalue}
+                      onChange={(e) => handleSearchCustomer(e)}
+                      className="!placeholder:text-blue_gray-400 !text-blue_gray-400 font-inter p-0 text-base text-left w-full"
+                      wrapClassName="flex rounded sm:w-full"
+                      prefix={
+                        <Img
+                          className="cursor-pointer h-6 mr-2 my-auto"
+                          src="images/img_search.svg"
+                          alt="search"
+                        />
+                      }
+                      suffix={
+                        <CloseSVG
+                          fillColor="#858d9d"
+                          className="cursor-pointer h-6 my-auto"
+                          onClick={() => setSearchbarvalue("")}
+                          style={{
+                            visibility: searchbarvalue?.length <= 0 ? "hidden" : "visible",
+                          }}
+                          height={24}
+                          width={24}
+                          viewBox="0 0 24 24"
+                        />
+                      }
+                      color="blue_gray_50"
+                      size="sm"
+                      variant="outline"
+                    ></Input>
                   </div>
                 </div>
                 <div className="flex flex-col gap-[26px] items-center justify-start px-4 w-full">
                   <div className="overflow-auto w-[99%]">
-                    <ReactTable
+                    {/* <ReactTable
                       columns={table1Columns}
                       data={table1Data.current}
                       rowClass={"border-b border-blue_gray-50"}
                       headerClass="border-b border-blue_gray-50"
-                    />
+                    /> */}
+
+                    <div class="relative overflow-x-auto">
+                      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                          <tr>
+
+                            <th scope="col" class="px-6 py-3">
+                              Name
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                              Email
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                              No Handphone
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                              Aksi
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {
+                            loaderCustomerData ? <span>Loading ...</span> :
+                              customerData?.map((data) => (
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={data.id}>
+                                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {data.customer_name}
+                                  </th>
+                                  <td class="px-6 py-4">
+                                    {data.email}
+                                  </td>
+                                  <td class="px-6 py-4">
+                                    {data.no_handphone}
+                                  </td>
+
+                                  <td class="px-6 py-4">
+                                    <Button
+                                      className="cursor-pointer font-medium min-w-[116px] ml-auto text-center text-sm bg-pink-600 text-white-A700 mr-2"
+                                      shape="round"
+                                      variant="fill"
+                                      onClick={() => {
+                                        handleUpdateCustomer(data.id)
+                                      }}
+                                    >Update
+                                    </Button>
+                                    <Button
+                                      className="cursor-pointer font-medium min-w-[116px] ml-auto text-center text-sm bg-pink-600 text-white-A700"
+                                      shape="round"
+                                      variant="fill"
+                                      onClick={() => {
+                                        handleDeleteCustomer(data.id)
+                                      }}
+                                    >Hapus
+                                    </Button>
+                                  </td>
+                                </tr>
+                              ))
+
+                          }
+
+
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>

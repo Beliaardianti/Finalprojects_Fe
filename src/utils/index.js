@@ -1,4 +1,4 @@
-export const handleSectionNavigation = (id) => {
+const handleSectionNavigation = (id) => {
   const element = document.getElementById(id);
   const offset = 45;
   const bodyRect = document.body.getBoundingClientRect().top;
@@ -11,3 +11,8 @@ export const handleSectionNavigation = (id) => {
     behavior: "smooth",
   });
 };
+
+const BASE_URL = "http://localhost:4000"
+
+export{BASE_URL,handleSectionNavigation}
+

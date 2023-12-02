@@ -21,13 +21,13 @@ const ProductInfoPage = () => {
       label: "Dashobard",
     },
     {
-      icon: (
-        <Img
-          className="h-6 mb-[3px] w-6"
-          src="images/img_settings.svg"
-          alt="settings"
-        />
-      ),
+      // icon: (
+      //   <Img
+      //     className="h-6 mb-[3px] w-6"
+      //     src="images/img_settings.svg"
+      //     alt="settings"
+      //   />
+      // ),
       label: "Inventory",
       href: "/inventory",
       active: window.location.pathname === "/inventory",

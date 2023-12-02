@@ -10,7 +10,7 @@ const Header = (props) => {
   return (
     <>
       <header className={props.className}>
-        <Input
+        {/* <Input
           name="searchbar"
           placeholder="Search product, supplier, order"
           value={searchbarvalue}
@@ -40,23 +40,8 @@ const Header = (props) => {
           color="blue_gray_50"
           size="sm"
           variant="outline"
-        ></Input>
-        <div className="flex flex-row gap-[21px] items-start justify-start w-auto">
-          <div className="flex flex-col items-start justify-start p-2 w-10">
-            <Img
-              className="h-6 w-6"
-              src="images/img_notification.svg"
-              alt="notification"
-            />
-          </div>
-          <div className="flex flex-col h-10 items-center justify-start w-10">
-            <Img
-              className="h-10 md:h-auto rounded-[50%] w-10"
-              src="images/img_andreyzvyagint.png"
-              alt="andreyzvyagint"
-            />
-          </div>
-        </div>
+        ></Input> */}
+
       </header>
     </>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Menu, MenuItem } from "react-pro-sidebar";
 
@@ -6,8 +6,19 @@ import { Button, Img, Input, Line, List, Text } from "components";
 import Sidebar1 from "components/Sidebar1";
 
 import { CloseSVG } from "../../assets/images";
+import { registerAdmin } from "api/repository/AuthRepository";
+import { useNavigate } from "react-router-dom";
 
 const AddAdmin = () => {
+
+  const navigate = useNavigate()
+
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [loader, setLoader] = useState(false);
+
   const sideBarMenu = [
     {
       icon: <Img className="h-6 w-6" src="images/img_home.svg" alt="home" />,
@@ -59,6 +70,25 @@ const AddAdmin = () => {
   ];
   const [searchbarvalue, setSearchbarvalue] = React.useState("");
 
+  const handleSubmit = async() =>{
+    setLoader(true)
+    try {
+      const res = await registerAdmin({
+        "name":name,
+        "email":email,
+        "password":password
+      })
+      setLoader(false)
+      alert("Tambah admin berhasil")
+      navigate(-1)
+      
+    } catch (error) {
+      alert(error.message)
+      console.log(error.message)
+      setLoader(false)
+    }
+  }
+
   return (
     <>
       <div className="bg-white flex flex-col font-inter items-center justify-start mx-auto pb-[29px] w-full">
@@ -67,41 +97,11 @@ const AddAdmin = () => {
           <div className="flex flex-1 flex-col gap-[22px] items-center justify-start md:px-5 w-full">
             <div className="bg-white-A700 border border-gray-200 border-solid flex flex-col items-center justify-start py-7 w-full">
               <div className="flex sm:flex-col flex-row md:gap-10 items-center justify-between max-w-[1160px] sm:px-5 px-8 w-full">
-                <Input
-                  name="searchbar"
-                  placeholder="Search product, supplier, order"
-                  value={searchbarvalue}
-                  onChange={(e) => setSearchbarvalue(e)}
-                  className="!placeholder:text-blue_gray-400 !text-blue_gray-400 p-0 text-base text-left w-full"
-                  wrapClassName="flex sm:flex-1 rounded sm:w-full"
-                  prefix={
-                    <Img
-                      className="cursor-pointer h-6 mr-2 my-auto"
-                      src="images/img_search.svg"
-                      alt="search"
-                    />
-                  }
-                  suffix={
-                    <CloseSVG
-                      fillColor="#858d9d"
-                      className="cursor-pointer h-6 my-auto"
-                      onClick={() => setSearchbarvalue("")}
-                      style={{
-                        visibility:
-                          searchbarvalue?.length <= 0 ? "hidden" : "visible",
-                      }}
-                      height={24}
-                      width={24}
-                      viewBox="0 0 24 24"
-                    />
-                  }
-                  color="blue_gray_50"
-                  size="sm"
-                  variant="outline"
-                ></Input>
+
+
                 <div className="h-10 relative w-[10%] sm:w-full">
                   <div className="flex flex-row gap-[21px] h-full items-center justify-between m-auto w-auto">
-                    <div className="flex flex-col items-start justify-start p-2 w-10">
+                    {/* <div className="flex flex-col items-start justify-start p-2 w-10">
                       <Img
                         className="h-6 w-6"
                         src="images/img_notification.svg"
@@ -114,9 +114,9 @@ const AddAdmin = () => {
                         src="images/img_andreyzvyagint.png"
                         alt="andreyzvyagint"
                       />
-                    </div>
+                    </div> */}
                   </div>
-                  <div className="absolute flex flex-row gap-[22px] h-full inset-[0] items-center justify-between m-auto w-auto">
+                  {/* <div className="absolute flex flex-row gap-[22px] h-full inset-[0] items-center justify-between m-auto w-auto">
                     <div className="flex flex-col items-start justify-start p-2 w-10">
                       <Img
                         className="h-6 w-6"
@@ -131,7 +131,7 @@ const AddAdmin = () => {
                         alt="andreyzvyagint_One"
                       />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -161,7 +161,9 @@ const AddAdmin = () => {
                                 >
                                   Name:
                                 </Text>
-                                <Input type="text" name="custumerName" />
+                                <Input type="text" name="name" onChange={(e)=>{
+                        setName(e)
+                      }} />
                               </div>
 
                               {/* Email */}
@@ -172,18 +174,38 @@ const AddAdmin = () => {
                                 >
                                   Email :
                                 </Text>
-                                <Input type="email" name="email" />
+                                <Input type="email" name="email" onChange={(e)=>{
+                        setEmail(e)
+                      }}/>
+                              </div>
+
+                              {/* Password */}
+                              <div className="flex gap-3 items-center justify-start w-full">
+                                <Text
+                                  className="text-blue_gray-800 text-base"
+                                  size="txtInterRegular14"
+                                >
+                                  Password :
+                                </Text>
+                                <Input type="password" name="password" onChange={(e)=>{
+                        setPassword(e)
+                      }}/>
                               </div>
 
                               {/* Buttons */}
                               <div className="flex gap-4 items-center justify-start mt-4">
-                                <Button
+                                {
+                                  loader ? <span>Harap tunggu ....</span> :
+                                  <Button
                                   className="min-w-[92px] text-center text-sm bg-blue-500 text-white-A700"
                                   shape="round"
                                   type="button"
+                                  onClick={()=>handleSubmit()}
                                 >
-                                  Add Product
-                                </Button>
+                                  Add Admin
+                                </Button> 
+                                }
+                                
                               </div>
                             </form>
                           </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Menu, MenuItem } from "react-pro-sidebar";
 
@@ -6,8 +6,10 @@ import { Button, Img, Input, Line, List, Text } from "components";
 import Sidebar1 from "components/Sidebar1";
 
 import { CloseSVG } from "../../assets/images";
+import { useNavigate } from "react-router-dom";
+import { addCustomer } from "api/repository/CustomerRepository";
 
-const AddCustumer = () => {
+const AddCustomer = () => {
   const sideBarMenu = [
     {
       icon: <Img className="h-6 w-6" src="images/img_home.svg" alt="home" />,
@@ -58,6 +60,34 @@ const AddCustumer = () => {
     },
   ];
   const [searchbarvalue, setSearchbarvalue] = React.useState("");
+  const navigate = useNavigate()
+
+  const [customerName, setCustomerName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [noHp, setNoHp] = useState("");
+
+  const [loader, setLoader] = useState(false);
+
+  const handleSubmit = async() =>{
+    setLoader(true)
+    try {
+      const res = await addCustomer({
+        "customer_name":customerName,
+        "email":email,
+        "no_handphone":noHp,
+        "address":address
+      })
+      setLoader(false)
+      alert("Tambah customer berhasil")
+      navigate(-1)
+      
+    } catch (error) {
+      alert(error.message)
+      console.log(error.message)
+      setLoader(false)
+    }
+  }
 
   return (
     <>
@@ -67,38 +97,8 @@ const AddCustumer = () => {
           <div className="flex flex-1 flex-col gap-[22px] items-center justify-start md:px-5 w-full">
             <div className="bg-white-A700 border border-gray-200 border-solid flex flex-col items-center justify-start py-7 w-full">
               <div className="flex sm:flex-col flex-row md:gap-10 items-center justify-between max-w-[1160px] sm:px-5 px-8 w-full">
-                <Input
-                  name="searchbar"
-                  placeholder="Search product, supplier, order"
-                  value={searchbarvalue}
-                  onChange={(e) => setSearchbarvalue(e)}
-                  className="!placeholder:text-blue_gray-400 !text-blue_gray-400 p-0 text-base text-left w-full"
-                  wrapClassName="flex sm:flex-1 rounded sm:w-full"
-                  prefix={
-                    <Img
-                      className="cursor-pointer h-6 mr-2 my-auto"
-                      src="images/img_search.svg"
-                      alt="search"
-                    />
-                  }
-                  suffix={
-                    <CloseSVG
-                      fillColor="#858d9d"
-                      className="cursor-pointer h-6 my-auto"
-                      onClick={() => setSearchbarvalue("")}
-                      style={{
-                        visibility:
-                          searchbarvalue?.length <= 0 ? "hidden" : "visible",
-                      }}
-                      height={24}
-                      width={24}
-                      viewBox="0 0 24 24"
-                    />
-                  }
-                  color="blue_gray_50"
-                  size="sm"
-                  variant="outline"
-                ></Input>
+          
+          
                 <div className="h-10 relative w-[10%] sm:w-full">
                   <div className="flex flex-row gap-[21px] h-full items-center justify-between m-auto w-auto">
                     <div className="flex flex-col items-start justify-start p-2 w-10">
@@ -161,7 +161,9 @@ const AddCustumer = () => {
                                 >
                                   Custumer Name :
                                 </Text>
-                                <Input type="text" name="custumerName" />
+                                <Input type="text" name="customer_name" onChange={(e)=>{
+                        setCustomerName(e)
+                      }}/>
                               </div>
 
                               {/* Email */}
@@ -172,7 +174,9 @@ const AddCustumer = () => {
                                 >
                                   Email :
                                 </Text>
-                                <Input type="email" name="email" />
+                                <Input type="email" name="email" onChange={(e)=>{
+                        setEmail(e)
+                      }} />
                               </div>
 
                               {/* Contact Number */}
@@ -183,7 +187,9 @@ const AddCustumer = () => {
                                 >
                                   No Handphone:
                                 </Text>
-                                <Input type="tel" name="contactNumber" />
+                                <Input type="tel" name="no_handphone" onChange={(e)=>{
+                        setNoHp(e)
+                      }}/>
                               </div>
 
                               {/* Alamat */}
@@ -194,18 +200,24 @@ const AddCustumer = () => {
                                 >
                                   Address:
                                 </Text>
-                                <Input type="text" name="alamat" />
+                                <Input type="text" name="address" onChange={(e)=>{
+                        setAddress(e)
+                      }}/>
                               </div>
 
                               {/* Buttons */}
                               <div className="flex gap-4 items-center justify-start mt-4">
-                                <Button
+                              {
+                                  loader ? <span>Harap tunggu ....</span> :
+                                  <Button
                                   className="min-w-[92px] text-center text-sm bg-blue-500 text-white-A700"
                                   shape="round"
                                   type="button"
+                                  onClick={()=>handleSubmit()}
                                 >
-                                  Add Custumer
-                                </Button>
+                                  Add Customer
+                                </Button> 
+                                }
                               </div>
                             </form>
                           </div>
@@ -223,4 +235,4 @@ const AddCustumer = () => {
   );
 };
 
-export default AddCustumer;
+export default AddCustomer;
